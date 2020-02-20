@@ -10,7 +10,6 @@
 int acc_flag=0;
 pthread_cond_t con_var = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
 // We want threads to be "working" for less than a second
 int work (int ms, struct timespec *ts) {
     ts->tv_sec = 0;
@@ -20,11 +19,8 @@ int work (int ms, struct timespec *ts) {
 }
 // timespecs for producer and consumer
 struct timespec tsP,tsC;
-
-
 int pnum;  // number updated when producer runs.
 int csum;  // sum computed using pnum when consumer runs.
-
 int (*pred)(int); // predicate indicating number to be consumed
 
 int produceT() {
@@ -53,7 +49,6 @@ void *Produce(void *a) {
   pthread_exit(NULL);
 }
 
-
 int consumeT() {
   if ( pred(pnum) ) { csum += pnum; }
   return pnum;
@@ -79,7 +74,6 @@ void *Consume(void *a) {
   printf("@C-EXIT\n");
   pthread_exit(NULL);
 }
-
 
 int main (int argc, const char * argv[]) {
   // the current number predicate
