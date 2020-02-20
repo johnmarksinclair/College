@@ -6,8 +6,8 @@
 #include <time.h>
 #include <unistd.h>
 #include "cond.c"
-// Global vars
-int acc_flag=0;
+// Global Variables
+int acc_flag = 0;
 pthread_cond_t con_var = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 // We want threads to be "working" for less than a second
