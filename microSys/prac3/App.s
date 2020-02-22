@@ -30,7 +30,7 @@ wloop	bl pins				; branch w/ link to pins sub
 		cmp r5, #0x00000004	; 2nd right button pressed (decrement no)
 		beq dec_sub	
 ops		cmp r5, #0x00000002	; 2nd left button pressed (+)
-		beq	add_sub
+		beq add_sub
 		cmp r5, #0x00000001	; leftmost button pressed (-)
 		beq sub_sub
 cont	b	dis_sub
