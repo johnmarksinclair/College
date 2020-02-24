@@ -22,9 +22,15 @@ IO1PIN	EQU 0xE0028010		; address of pins (leds)
 		ldr r8, =0			; init input val to 0
 		ldr r9, =0			; init answer val to 0
 		ldr r10, =0			; flag to say first input made (1 for made)
-		;ldr r11, =0			; negative value flag
+		ldr r11, =0			; inc/ dec value flag
+		ldr	r12, =-1
 wloop	bl pins				; branch w/ link to pins sub
 		mov r5, r0
+		cmp	r11, #1
+		beq	inc
+		cmp r5, #0x0
+		beq	wloop
+inc		str	r3, [r1]		; set the bit -> turn off the LED
 		cmp r5, #0x00000008 ; rightmost button pressed (increment no)
 		beq inc_sub
 		cmp r5, #0x00000004	; 2nd right button pressed (decrement no)
@@ -39,29 +45,35 @@ next	b	wloop
 stop	b	stop
 
 ; increment sub - increments inputted value (r8)
-inc_sub	add r8, r8, #1		; increment inputted value
+inc_sub	ldr	r11, =1
+		add r8, r8, #1		; increment inputted value
 		cmp r8, #16			; no input values > 15
 		bne incEnd	
 		ldr r8, =0			; reset input if > 15
 incEnd	b	ops
 
 ; decrement sub - decrements inputted value (r8)
-dec_sub	sub r8, r8, #1		; decrement inputted value
+dec_sub	ldr	r11, =1
+		sub r8, r8, #1		; decrement inputted value
 		cmp r8, #-1			; no negative input vals
 		bne decEnd
 		ldr r8, =0			; reset input if < 0
 decEnd	b	ops
 
 ; addition sub - performs addition operation
-add_sub	add r9, r8, r9		; pushing inputted value into answer
+add_sub	ldr	r11, =0
+		add r9, r9, r8		; pushing inputted value into answer
 		ldr r8, =0			; reset input value
-		ldr r10, =1			; flag set 
 		b	dis_ans
 		
 ; subtract sub - performs subtraction operation
-sub_sub	sub r9, r9, r8		; pushing inputted value into answer
-		ldr r8, =0			; reset input value
-		ldr r10, =1			; flag set 
+sub_sub	ldr	r11, =0
+		cmp	r10, #1
+		beq	jump
+		mov	r9, r8
+		b	over
+jump	sub r9, r9, r8		; pushing inputted value into answer
+over	ldr r8, =0			; reset input value
 		b	dis_ans
 		
 ; display sub - visualisation of inputted number
@@ -78,25 +90,22 @@ dloop	subs r4, r4, #1
 		
 ; display answer sub - flashes the answer to the leds for ~2 secs
 dis_ans	cmp	r10, #1
-		bne	next
-		;cmp r9, #0			; check if negative
-		;bge	not_neg
-		;ldr	r11, =1			; set neg flag
-;not_neg	b	dis_neg
-		mov	r3, r9			
-		bl	rev_sub
+		bne	skip
+		cmp r9, #0			; check if negative
+		bge	not_neg
+		mul	r12, r9, r12
+		orr r12, r12, #0x8
+		mov	r3, r12
+		ldr	r12, =-1
+		b	go
+not_neg	mov	r3, r9			
+go		bl	rev_sub
 		mov	r3, r0			; move answer from rev sub to r3
 		mov r3, r3, lsl #16
 		str r3, [r2]		; display on leds
-		ldr	r4, =8000000	; delay for about 2 seconds
-loop	subs r4, r4, #1
-		bne	loop
-		str	r3, [r1]		; set the bit -> turn off the LED
+skip	ldr r10, =1			; flag set 
 		b	next
 		
-; display negative number sub - makes most sig bit 1 if negative number
-dis_neg	
-
 ; reverse sub - reverses bits in r3, returns in r0
 rev_sub	push{r3-r4, lr}
 		ldr	r0, =0			; init returned val
