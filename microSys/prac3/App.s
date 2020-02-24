@@ -10,7 +10,7 @@ start
 IO1DIR	EQU	0xE0028018
 IO1SET	EQU	0xE0028014
 IO1CLR	EQU	0xE002801C
-IO1PIN	EQU 0xE0028010		; address of pins (leds)
+IO1PIN	EQU	0xE0028010		; address of pins (leds)
 	
 
 		ldr	r1,=IO1DIR
@@ -91,13 +91,13 @@ dloop	subs r4, r4, #1
 ; display answer sub - flashes the answer to the leds for ~2 secs
 dis_ans	cmp	r10, #1
 		bne	skip
-		cmp r9, #0			; check if negative
-		bge	not_neg
-		mul	r12, r9, r12
-		orr r12, r12, #0x8
-		mov	r3, r12
-		ldr	r12, =-1
-		b	go
+		;cmp r9, #0			; check if negative
+		;bge	not_neg
+		;mul	r12, r9, r12
+		;orr r12, r12, #0x8
+		;mov	r3, r12
+		;ldr	r12, =-1
+		;b	go
 not_neg	mov	r3, r9			
 go		bl	rev_sub
 		mov	r3, r0			; move answer from rev sub to r3
