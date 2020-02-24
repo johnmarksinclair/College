@@ -1,13 +1,11 @@
-package assignment1;
-
 //-------------------------------------------------------------------------
 /**
-* This class contains only two static methods that search for points on the
-* same line in three arrays of integers.
-*
-* @author
-* @version 18/09/18 12:21:09
-*/
+ * This class contains only two static methods that search for points on the
+ * same line in three arrays of integers.
+ *
+ * @author
+ * @version 18/09/18 12:21:09
+ */
 class Collinear {
 
 	public static final int y1 = 1;

@@ -1,5 +1,3 @@
-package assignment3;
-
 /*************************************************************************
  *  Binary Search Tree class.
  *  Adapted from Sedgewick and Wayne.

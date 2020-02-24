@@ -1,11 +1,10 @@
-package assignment2;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -81,9 +80,9 @@ public class DoublyLinkedListTest {
 	@Test
 	public void testIsEmpty() {
 		DoublyLinkedList<Integer> testDLL = new DoublyLinkedList<Integer>();
-		assertTrue("", testDLL.isEmpty());
+		assertTrue("Checking isEmpty()", testDLL.isEmpty());
 		testDLL.firstNode(1);
-		assertFalse("", testDLL.isEmpty());
+		assertFalse("Checking isEmpty()", testDLL.isEmpty());
 	}
 
 	@Test
@@ -97,7 +96,7 @@ public class DoublyLinkedListTest {
 		assertNull("", testDLL.get(3));
 	}
 
-	@Test
+	@Test //TODO
 	public void testDeleteAt() {
 		DoublyLinkedList<Integer> testDLL = new DoublyLinkedList<Integer>();
 		testDLL.firstNode(1);
