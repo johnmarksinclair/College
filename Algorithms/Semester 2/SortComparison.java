@@ -185,7 +185,7 @@ class SortComparison {
 		int leftI = 0;
 		int rightI = 0;
 		int i = left;
-		while (leftI <  leftLength && rightI < rightLength) {
+		while (leftI < leftLength && rightI < rightLength) {
 			if (leftArr[leftI] <= rightArr[rightI]) {
 				a[i] = leftArr[leftI];
 				leftI++;
@@ -195,7 +195,7 @@ class SortComparison {
 			}
 			i++;
 		}
-		while (leftI <  leftLength) {
+		while (leftI < leftLength) {
 			a[i] = leftArr[leftI];
 			leftI++;
 			i++;
