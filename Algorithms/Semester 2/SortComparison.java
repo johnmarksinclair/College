@@ -101,7 +101,7 @@ class SortComparison {
 	 *
 	 */
 	static double[] mergeSort(double a[]) {
-		return null;
+		return a;
 	}
 
 	/**
@@ -114,7 +114,43 @@ class SortComparison {
 	 */
 
 	static double[] mergeSortIterative(double a[]) {
-		return null;
+		if (a.length > 1) {
+			int mid = a.length/2;
+			double[] left = new double[mid];
+			double[] right = new double[a.length-mid];
+			for (int i = 0; i < mid; i++) {
+				left[i] = a[i];
+			}
+			for (int i = mid; i < a.length; i++) {
+				right[i-mid] = a[i];
+			}
+			mergeSortIterative(left);
+			mergeSortIterative(right);
+			int l = 0;
+			int r = 0;
+			int x = 0;
+			while (l < left.length && r < right.length) {
+				if (left[l] < right[r]) {
+					a[x] = left[l];
+					l++;
+				} else {
+					a[x] = right[r];
+					r++;
+				}
+				x++;
+			}
+			while (l < left.length) {
+				a[x] = left[l];
+				l++;
+				x++;
+			}
+			while (r < right.length) {
+				a[x] = right[r];
+				r++;
+				x++;
+			}
+		}
+		return a;
 	}
 
 	/**
@@ -139,6 +175,6 @@ class SortComparison {
 
 	public static void main(String[] args) {
 		double a[] = { 8, 6, 2, 5, 7, 9, 1, 4, 3 };
-		printArr(quickSort(a));
+		printArr(mergeSortIterative(a));
 	}
 }
