@@ -63,12 +63,10 @@ class SortComparison {
 	 *
 	 */
 	static double[] quickSort(double a[]) {
-		int lo = 0;
-		int hi = a.length - 1;
-		return quickSortRecursive(a, lo, hi);
+		return quickSortRecursive(a, 0, a.length-1);
 	}
 
-	public static double[] quickSortRecursive(double a[], int lo, int hi) {
+	static double[] quickSortRecursive(double a[], int lo, int hi) {
 		if (lo < hi) {
 			int split = split(a, lo, hi);
 			quickSortRecursive(a, lo, split - 1);
@@ -77,7 +75,7 @@ class SortComparison {
 		return a;
 	}
 
-	public static int split(double a[], int lo, int hi) {
+	static int split(double a[], int lo, int hi) {
 		double piv = a[hi];
 		int index = lo - 1;
 		for (int i = lo; i < hi; i++) {
@@ -128,10 +126,10 @@ class SortComparison {
 	 *         order.
 	 */
 	static double[] mergeSortRecursive(double a[]) {
-		return null;
+		return a;
 	}
 
-	public static void printArr(double a[]) {
+	static void printArr(double a[]) {
 		int i = 0;
 		while (i < a.length) {
 			System.out.println(a[i]);
@@ -140,7 +138,7 @@ class SortComparison {
 	}
 
 	public static void main(String[] args) {
-		double a[] = { 6, 2, 9, 3, 4 };
+		double a[] = { 8, 6, 2, 5, 7, 9, 1, 4, 3 };
 		printArr(quickSort(a));
 	}
 }
