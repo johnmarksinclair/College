@@ -63,7 +63,7 @@ class SortComparison {
 	 *
 	 */
 	static double[] quickSort(double a[]) {
-		return quickSortRecursive(a, 0, a.length-1);
+		return quickSortRecursive(a, 0, a.length - 1);
 	}
 
 	static double[] quickSortRecursive(double a[], int lo, int hi) {
@@ -111,14 +111,14 @@ class SortComparison {
 
 	static double[] mergeSortIterative(double a[]) {
 		if (a.length > 1) {
-			int mid = a.length/2;
+			int mid = a.length / 2;
 			double[] left = new double[mid];
-			double[] right = new double[a.length-mid];
+			double[] right = new double[a.length - mid];
 			for (int i = 0; i < mid; i++) {
 				left[i] = a[i];
 			}
 			for (int i = mid; i < a.length; i++) {
-				right[i-mid] = a[i];
+				right[i - mid] = a[i];
 			}
 			mergeSortIterative(left);
 			mergeSortIterative(right);
@@ -158,7 +158,53 @@ class SortComparison {
 	 *         order.
 	 */
 	static double[] mergeSortRecursive(double a[]) {
+		return mergeSort(a, 0, a.length - 1);
+	}
+
+	static double[] mergeSort(double a[], int left, int right) {
+		if (left < right) {
+			int mid = (left + right) / 2;
+			mergeSort(a, left, mid);
+			mergeSort(a, mid + 1, right);
+			merge(a, left, mid, right);
+		}
 		return a;
+	}
+
+	static void merge(double a[], int left, int mid, int right) {
+		int leftLength = mid - left + 1;
+		int rightLength = right - mid;
+		double leftArr[] = new double[leftLength];
+		double rightArr[] = new double[rightLength];
+		for (int i = 0; i < leftLength; i++) {
+			leftArr[i] = a[left + i];
+		}
+		for (int i = 0; i < rightLength; i++) {
+			rightArr[i] = a[mid + 1 + i];
+		}
+		int leftI = 0;
+		int rightI = 0;
+		int i = left;
+		while (leftI <  leftLength && rightI < rightLength) {
+			if (leftArr[leftI] <= rightArr[rightI]) {
+				a[i] = leftArr[leftI];
+				leftI++;
+			} else {
+				a[i] = rightArr[rightI];
+				rightI++;
+			}
+			i++;
+		}
+		while (leftI <  leftLength) {
+			a[i] = leftArr[leftI];
+			leftI++;
+			i++;
+		}
+		while (rightI < rightLength) {
+			a[i] = rightArr[rightI];
+			rightI++;
+			i++;
+		}
 	}
 
 	static void printArr(double a[]) {
@@ -170,7 +216,7 @@ class SortComparison {
 	}
 
 	public static void main(String[] args) {
-		double a[] = { 8, 6, 2, 5, 7, 9, 1, 4, 3 };
+		double a[] = { 8, 6, 2, -1, 5, 7, 9, 1, 0, 4, 3 };
 		printArr(mergeSortIterative(a));
 	}
 }
