@@ -100,10 +100,6 @@ class SortComparison {
 	 * @return array sorted in ascending order
 	 *
 	 */
-	static double[] mergeSort(double a[]) {
-		return a;
-	}
-
 	/**
 	 * Sorts an array of doubles using iterative implementation of Merge Sort. This
 	 * method is static, thus it can be called as SortComparison.sort(a)
