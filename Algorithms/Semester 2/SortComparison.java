@@ -40,9 +40,9 @@ class SortComparison {
 	 *
 	 */
 	static double[] selectionSort(double a[]) {
-		for (int i = 0; i < a.length-1; i++) {
+		for (int i = 0; i < a.length - 1; i++) {
 			int min = i;
-			for (int j = i+1; j < a.length; j++) {
+			for (int j = i + 1; j < a.length; j++) {
 				if (a[j] < a[min]) {
 					min = j;
 				}
@@ -63,11 +63,35 @@ class SortComparison {
 	 *
 	 */
 	static double[] quickSort(double a[]) {
+		int lo = 0;
+		int hi = a.length - 1;
+		return quickSortRecursive(a, lo, hi);
+	}
+
+	public static double[] quickSortRecursive(double a[], int lo, int hi) {
+		if (lo < hi) {
+			int split = split(a, lo, hi);
+			quickSortRecursive(a, lo, split - 1);
+			quickSortRecursive(a, split + 1, hi);
+		}
 		return a;
 	}
-	
-	public static double[] quickSortRecursive(double a[], double lo, double hi) {
-		return a;
+
+	public static int split(double a[], int lo, int hi) {
+		double piv = a[hi];
+		int index = lo - 1;
+		for (int i = lo; i < hi; i++) {
+			if (a[i] < piv) {
+				index++;
+				double temp = a[index];
+				a[index] = a[i];
+				a[i] = temp;
+			}
+		}
+		double temp = a[index + 1];
+		a[index + 1] = a[hi];
+		a[hi] = temp;
+		return index + 1;
 	}
 
 	/**
@@ -106,7 +130,7 @@ class SortComparison {
 	static double[] mergeSortRecursive(double a[]) {
 		return null;
 	}
-	
+
 	public static void printArr(double a[]) {
 		int i = 0;
 		while (i < a.length) {
@@ -116,7 +140,7 @@ class SortComparison {
 	}
 
 	public static void main(String[] args) {
-		double a[] = {6, 2, 9, 3 , 4};
-		printArr(selectionSort(a));
+		double a[] = { 6, 2, 9, 3, 4 };
+		printArr(quickSort(a));
 	}
 }
