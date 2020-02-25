@@ -1,46 +1,35 @@
-//import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-//-------------------------------------------------------------------------
-/**
- * Test class for SortComparison.java
- *
- * @author
- * @version HT 2020
- */
-@RunWith(JUnit4.class)
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
+
 public class SortComparisonTest {
-	// ~ Constructor ........................................................
+	public double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
+	public double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
+	
 	@Test
-	public void testConstructor() {
-		new SortComparison();
+	public void testInsertionSort() {
+		assertTrue(Arrays.equals(sorted, SortComparison.insertionSort(unsorted)));
 	}
 
-	// ~ Public Methods ........................................................
-
-	// ----------------------------------------------------------
-	/**
-	 * Check that the methods work for empty arrays
-	 */
 	@Test
-	public void testEmpty() {
+	public void testSelectionSort() {
+		assertTrue(Arrays.equals(sorted, SortComparison.selectionSort(unsorted)));
 	}
 
-	// TODO: add more tests here. Each line of code and ech decision in
-	// Collinear.java should
-	// be executed at least once from at least one test.
-
-	// ----------------------------------------------------------
-	/**
-	 * Main Method. Use this main method to create the experiments needed to answer
-	 * the experimental performance questions of this assignment.
-	 *
-	 */
-	public static void main(String[] args) {
-		// TODO: implement this method
+	@Test
+	public void testQuickSort() {
+		assertTrue(Arrays.equals(sorted, SortComparison.quickSort(unsorted)));
 	}
 
+	@Test
+	public void testMergeSortRecurssive() {
+		assertTrue(Arrays.equals(sorted, SortComparison.mergeSortRecursive(unsorted)));
+	}
+
+	@Test
+	public void testMergeSortIterative() {
+		assertTrue(Arrays.equals(sorted, SortComparison.mergeSortIterative(unsorted)));
+	}
 }
