@@ -206,17 +206,4 @@ class SortComparison {
 			i++;
 		}
 	}
-
-//	static void printArr(double a[]) {
-//		int i = 0;
-//		while (i < a.length) {
-//			System.out.println(a[i]);
-//			i++;
-//		}
-//	}
-//
-//	public static void main(String[] args) {
-//		double a[] = { 8, 6, 2, -1, 5, 7, 9, 1, 0, 4, 3 };
-//		printArr(mergeSortIterative(a));
-//	}
 }

@@ -44,22 +44,22 @@ public class SortComparisonTest {
 		assertTrue(Arrays.equals(sorted, SortComparison.mergeSortIterative(unsorted)));
 	}
 
-//	public static void main(String[] args) throws IOException {
-//		long startTime = System.currentTimeMillis();
-//		File file = new File("C:\\Users\\John\\Documents\\Eclipse\\Algorithms\\assignment input data files\\numbers1000Duplicates.txt");
-//		BufferedReader reader = new BufferedReader(new FileReader(file));
-//		String string;
-//		double[] arr = new double[1000];
-//		int index = 0;
-//		double number = 0;
-//		while ((string = reader.readLine()) != null) {
-//			number = Double.valueOf(string);
-//			arr[index++] = number;
-//		}
-//		SortComparison.quickSort(arr);
-//		long endTime = System.currentTimeMillis();
-//		long overallTime = endTime - startTime;
-//		System.out.println("Runtime: " + overallTime);
-//		reader.close();
-//	}
+	public static void main(String[] args) throws IOException {
+		long startTime = System.currentTimeMillis();
+		File file = new File("C:\\Users\\John\\Documents\\Eclipse\\Algorithms\\assignment input data files\\numbers1000Duplicates.txt");
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+		String string;
+		double[] arr = new double[1000];
+		int index = 0;
+		double number = 0;
+		while ((string = reader.readLine()) != null) {
+			number = Double.valueOf(string);
+			arr[index++] = number;
+		}
+		SortComparison.quickSort(arr);
+		long endTime = System.currentTimeMillis();
+		long overallTime = endTime - startTime;
+		System.out.println("Runtime: " + overallTime);
+		reader.close();
+	}
 }
