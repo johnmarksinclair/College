@@ -19,61 +19,36 @@ public class SortComparisonTest {
 
 	@Test
 	public void testInsertionSort() {
-<<<<<<< HEAD
-		public double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
-		public double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
-=======
 		double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
 		double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
->>>>>>> 1351d92fed9b0b615b75a86c119acc24c4ea0cf8
 		assertTrue(Arrays.equals(sorted, SortComparison.insertionSort(unsorted)));
 	}
 
 	@Test
 	public void testSelectionSort() {
-<<<<<<< HEAD
-		public double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
-		public double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
-=======
 		double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
 		double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
->>>>>>> 1351d92fed9b0b615b75a86c119acc24c4ea0cf8
 		assertTrue(Arrays.equals(sorted, SortComparison.selectionSort(unsorted)));
 	}
 
 	@Test
 	public void testQuickSort() {
-<<<<<<< HEAD
-		public double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
-		public double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
-=======
 		double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
 		double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
->>>>>>> 1351d92fed9b0b615b75a86c119acc24c4ea0cf8
 		assertTrue(Arrays.equals(sorted, SortComparison.quickSort(unsorted)));
 	}
 
 	@Test
 	public void testMergeSortRecurssive() {
-<<<<<<< HEAD
-		public double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
-		public double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
-=======
 		double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
 		double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
->>>>>>> 1351d92fed9b0b615b75a86c119acc24c4ea0cf8
 		assertTrue(Arrays.equals(sorted, SortComparison.mergeSortRecursive(unsorted)));
 	}
 
 	@Test
 	public void testMergeSortIterative() {
-<<<<<<< HEAD
-		public double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
-		public double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
-=======
 		double unsorted[] = { 4, -2, -1, 2, -5, 0, 3, 1, -3, -4, 5 };
 		double sorted[] = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
->>>>>>> 1351d92fed9b0b615b75a86c119acc24c4ea0cf8
 		assertTrue(Arrays.equals(sorted, SortComparison.mergeSortIterative(unsorted)));
 	}
 
