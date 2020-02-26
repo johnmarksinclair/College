@@ -5,14 +5,20 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-/* 						Insert		Selection	Merge Recursive		Merge Iterative		Quick
- * 10 Random			7ms			9ms			5ms					5ms					10ms
- * 100 Random			12ms		15ms		6ms					5ms					10ms
- * 1000 Random			22ms		21ms		11ms				11ms				11ms
- * 1000 Few Unique		25ms		24ms		9ms					9ms					8ms
- * 1000 Nearly Ordered	16ms		28ms		12ms				11ms				10ms
- * 1000 Reverse Order	35ms		27ms		11ms				10ms				27ms	
- * 1000	Sorted			11ms		29ms		10ms				10ms				24ms
+/* 							Insert		Selection	Merge Recursive		Merge Iterative		Quick
+ * 1) 10 Random				7ms			9ms			5ms					5ms					10ms
+ * 2) 100 Random			12ms		15ms		6ms					5ms					10ms
+ * 3) 1000 Random			22ms		21ms		11ms				11ms				11ms
+ * 4) 1000 Few Unique		25ms		24ms		9ms					9ms					8ms
+ * 5) 1000 Nearly Ordered	16ms		28ms		12ms				11ms				10ms
+ * 6) 1000 Reverse Order	35ms		27ms		11ms				10ms				27ms	
+ * 7) 1000	Sorted			11ms		29ms		10ms				10ms				24ms
+ * 
+ * a) Quick - Deals very well with a randomised set but the time increases rapidly when the set is in reverse order
+ * b) Insertion - this is because while it has to cycle through the whole set regardless, it will not have to perform any moving operations with the sorted array
+ * c) Insertion - this is because its O(N^2), due to the two nested loops
+ * d) I did not, altough I did have a larger deviation of values before the time was average with iterative
+ * e) 1) Merge 2) Merge 3) Merge/ Quick 4) Quick 5) Quick 6) Iterative Merge 7) Merge
  */
 
 public class SortComparisonTest {
