@@ -25,13 +25,13 @@ proctype move_frog(int index){
     do
     ::atomic {
         if
-        ::(index>=3&&((frogs[index]-frogs[0]==2)||(frogs[index]-frogs[0]==1)))->
+        ::(index>=3&&((frogs[index]-frogs[0]==2)||(frogs[index]-frogs[0]==1))) ->
             temp = frogs[0];
             frogs[0]=frogs[index];
             frogs[index]=temp;
             printf("\nFROG%d FROM %d TO %d",index,frogs[0],frogs[index]);
             print_frogs();
-        ::(index<3&&((frogs[0]-frogs[index]==2)||(frogs[0]-frogs[index]==1)))->
+        ::(index<3&&((frogs[0]-frogs[index]==2)||(frogs[0]-frogs[index]==1))) ->
             temp = frogs[0];
             frogs[0]=frogs[index];
             frogs[index]=temp;
