@@ -1,8 +1,19 @@
-
 int frogs[5];
 
-inline printStatement(){
-    printf("\nEMPTY %d, FROG1@%d, FROG2@%d, FROG3@%d, FROG4@%d",frogs[0],frogs[1],frogs[2],frogs[3],frogs[4]);
+init {
+    frogs[0]= 3;
+    frogs[1]= 1;
+    frogs[2]= 2;
+    frogs[3]= 4;
+    frogs[4]= 5;    
+    printStatement();
+    run moveFrog(1);
+    run moveFrog(2);
+    run moveFrog(3);
+    run moveFrog(4);
+    (_nr_pr==1)
+    printf("\n");
+    assert(!(frogs[1]+frogs[2]==9&&frogs[3]+frogs[4]==3));
 }
 
 proctype moveFrog(int index){
@@ -35,18 +46,6 @@ proctype moveFrog(int index){
     od;
 }
 
-init {
-    frogs[0]= 3;
-    frogs[1]= 1;
-    frogs[2]= 2;
-    frogs[3]= 4;
-    frogs[4]= 5;    
-    printStatement();
-    run moveFrog(1);
-    run moveFrog(2);
-    run moveFrog(3);
-    run moveFrog(4);
-    (_nr_pr==1)
-    printf("\n");
-    assert(!(frogs[1]+frogs[2]==9&&frogs[3]+frogs[4]==3));
+inline printStatement(){
+    printf("\nEMPTY %d, FROG1@%d, FROG2@%d, FROG3@%d, FROG4@%d",frogs[0],frogs[1],frogs[2],frogs[3],frogs[4]);
 }
