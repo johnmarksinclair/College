@@ -7,11 +7,11 @@ import java.io.*;
  * It should be clear that the contestants may arrive at the intersections at different times, in
  * which case, the first to arrive can wait until the others arrive.
  * From an estimated walking speed for each one of the three contestants, ACM wants to determine the
- * minimum time that a live TV broadcast should last to cover their journey regardless of the contestantsâ€™
+ * minimum time that a live TV broadcast should last to cover their journey regardless of the contestants’
  * initial positions and the intersection they finally meet. You are hired to help ACM answer this question.
  * You may assume the following:
- *    ï‚· Each contestant walks at a given estimated speed.
- *    ï‚· The city is a collection of intersections in which some pairs are connected by one-way
+ *     Each contestant walks at a given estimated speed.
+ *     The city is a collection of intersections in which some pairs are connected by one-way
  * streets that the contestants can use to traverse the city.
  *
  * This class implements the competition using Dijkstra's algorithm
@@ -19,15 +19,16 @@ import java.io.*;
 
 public class CompetitionDijkstra {
 
-	public static int numOfIntersections;
-	public static int numOfStreets;
-	public static int aSpeed;
-	public static int bSpeed;
-	public static int cSpeed;
-	public static int aStart;
-	public static int bStart;
-	public static int cStart;
-	public static double[][] adjTable;
+	public final int NUM_OF_CONTESTANTS = 3;
+	public int numOfIntersections;
+	public int numOfStreets;
+	public int aSpeed;
+	public int bSpeed;
+	public int cSpeed;
+	public int aStart;
+	public int bStart;
+	public int cStart;
+	public double[][] adjTable;
 
 	/**
 	 * @param filename: A filename containing the details of the city road network
@@ -36,23 +37,39 @@ public class CompetitionDijkstra {
 	 * @throws FileNotFoundException
 	 */
 	CompetitionDijkstra(String filename, int sA, int sB, int sC) throws FileNotFoundException, IOException {
-		aSpeed = sA;
-		bSpeed = sB;
-		cSpeed = sC;
+		this.aSpeed = sA;
+		this.bSpeed = sB;
+		this.cSpeed = sC;
 		String[] streets = readFile(filename);
-		initContestants();
+		int[] positions = initContestants();
+		System.out.println("A started at Intersection: " + positions[0]);
+		System.out.println("B started at Intersection: " + positions[1]);
+		System.out.println("C started at Intersection: " + positions[2] + "\n");
 		adjTable = createAdjacencyTable(streets);
 		for (int i = 0; i < numOfIntersections; i++) {
 			dijkstra(adjTable, i);
 		}
-		// printGraph(adjTable, "adjTable");
-		System.out.println("A started at Intersection: " + aStart);
-		System.out.println("B started at Intersection: " + bStart);
-		System.out.println("C started at Intersection: " + cStart);
-		System.out.println("\nMinimum time required for competition: " + timeRequiredforCompetition() + " minutes");
+		//printGraph(adjTable, "adjTable");
 	}
 
-	public static double[][] createTimeGraph(double[][] graph, int speed) {
+	/**
+	 * @return int: minimum minutes that will pass before the three contestants can
+	 *         meet
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 */
+	public int timeRequiredforCompetition() throws FileNotFoundException, IOException {
+		double[][] aTimeGraph = createTimeGraph(adjTable, this.aSpeed);
+		double[][] bTimeGraph = createTimeGraph(adjTable, this.bSpeed);
+		double[][] cTimeGraph = createTimeGraph(adjTable, this.cSpeed);
+		//printGraph(aTimeGraph, "aTimeGraph");
+		//printGraph(bTimeGraph, "bTimeGraph");
+		//printGraph(cTimeGraph, "cTimeGraph");
+		int time = (int) getMinTimeNeeded(aTimeGraph, bTimeGraph, cTimeGraph);
+		return time;
+	}
+
+	public double[][] createTimeGraph(double[][] graph, int speed) {
 		double[][] speedGraph = new double[numOfIntersections][numOfIntersections];
 		for (int i = 0; i < numOfIntersections; i++) {
 			for (int j = 0; j < numOfIntersections; j++) {
@@ -62,10 +79,11 @@ public class CompetitionDijkstra {
 		return speedGraph;
 	}
 
-	public static void initContestants() {
-		aStart = (int) (Math.floor(Math.random() * numOfIntersections));
-		bStart = (int) (Math.floor(Math.random() * numOfIntersections));
-		cStart = (int) (Math.floor(Math.random() * numOfIntersections));
+	public int[] initContestants() {
+		int[] pos = new int[NUM_OF_CONTESTANTS];
+		this.aStart = (int) (Math.floor(Math.random() * numOfIntersections));
+		this.bStart = (int) (Math.floor(Math.random() * numOfIntersections));
+		this.cStart = (int) (Math.floor(Math.random() * numOfIntersections));
 		while (bStart == aStart) {
 			if (bStart == aStart) {
 				bStart = (int) Math.floor(Math.random() * numOfIntersections);
@@ -76,9 +94,13 @@ public class CompetitionDijkstra {
 				cStart = (int) (Math.floor(Math.random() * numOfIntersections));
 			}
 		}
+		pos[0] = aStart;
+		pos[1] = bStart;
+		pos[2] = cStart;
+		return pos;
 	}
 
-	public static String[] readFile(String file) throws FileNotFoundException, IOException {
+	public String[] readFile(String file) throws FileNotFoundException, IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		String street;
 		int index = 0;
@@ -93,7 +115,7 @@ public class CompetitionDijkstra {
 		return streets;
 	}
 
-	public static double[][] createAdjacencyTable(String[] streets) {
+	public double[][] createAdjacencyTable(String[] streets) {
 		int src;
 		int dst;
 		double length;
@@ -108,7 +130,7 @@ public class CompetitionDijkstra {
 		return adjTable;
 	}
 
-//	public static void printGraph(double[][] graph, String title) {
+//	public void printGraph(double[][] graph, String title) {
 //		System.out.println(title);
 //		for (int i = 0; i < numOfIntersections; i++) {
 //			for (int j = 0; j < numOfIntersections; j++) {
@@ -119,19 +141,7 @@ public class CompetitionDijkstra {
 //		System.out.println();
 //	}
 
-	/**
-	 * @return int: minimum minutes that will pass before the three contestants can
-	 *         meet
-	 */
-	public int timeRequiredforCompetition() {
-		double[][] aTimeGraph = createTimeGraph(adjTable, aSpeed);
-		double[][] bTimeGraph = createTimeGraph(adjTable, bSpeed);
-		double[][] cTimeGraph = createTimeGraph(adjTable, cSpeed);
-		int time = (int) getMinTimeNeeded(aTimeGraph, bTimeGraph, cTimeGraph);
-		return time;
-	}
-
-	public double getMinTimeNeeded(double[][] aTimeGraph, double[][] bTimeGraph, double[][] cTimeGraph) {
+	public int getMinTimeNeeded(double[][] aTimeGraph, double[][] bTimeGraph, double[][] cTimeGraph) {
 		double[] aTimes = new double[numOfIntersections];
 		double[] bTimes = new double[numOfIntersections];
 		double[] cTimes = new double[numOfIntersections];
@@ -154,11 +164,12 @@ public class CompetitionDijkstra {
 				node = i;
 			}
 		}
-		System.out.println("\nThey meet at Intersection: " + node);
-		return minIndTime;
+		System.out.println("They meet at Intersection: " + node);
+		int returnedTime = (int) Math.ceil(minIndTime);
+		return returnedTime;
 	}
 
-	public static double getMaxDouble(double a, double b, double c) {
+	public double getMaxDouble(double a, double b, double c) {
 		double max = a;
 		if (b > max)
 			max = b;
@@ -167,7 +178,7 @@ public class CompetitionDijkstra {
 		return max;
 	}
 
-	public static int minDistance(double dist[], Boolean sptSet[]) {
+	public int minDistance(double dist[], Boolean sptSet[]) {
 		double min = Double.MAX_VALUE;
 		int min_index = -1;
 
@@ -180,7 +191,7 @@ public class CompetitionDijkstra {
 		return min_index;
 	}
 
-	public static void dijkstra(double graph[][], int src) {
+	public void dijkstra(double graph[][], int src) {
 		double dist[] = new double[numOfIntersections];
 		Boolean sptSet[] = new Boolean[numOfIntersections];
 
@@ -208,9 +219,5 @@ public class CompetitionDijkstra {
 		for (int i = 0; i < numOfIntersections; i++) {
 			adjTable[src][i] = dist[i];
 		}
-	}
-
-	public static void main(String[] args) throws FileNotFoundException, IOException {
-		CompetitionDijkstra comp = new CompetitionDijkstra("C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\tinyEWD.txt", 1, 1, 1); // avg speed is 84 
 	}
 }
