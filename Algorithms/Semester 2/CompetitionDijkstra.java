@@ -32,7 +32,7 @@ public class CompetitionDijkstra {
 
 	/**
 	 * @param filename: A filename containing the details of the city road network
-	 * @param sA,       sB, sC: speeds for 3 contestants
+	 * @param sA, sB, sC: speeds for 3 contestants
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
@@ -41,10 +41,10 @@ public class CompetitionDijkstra {
 		this.bSpeed = sB;
 		this.cSpeed = sC;
 		String[] streets = readFile(filename);
-		int[] positions = initContestants();
-		System.out.println("A started at Intersection: " + positions[0]);
-		System.out.println("B started at Intersection: " + positions[1]);
-		System.out.println("C started at Intersection: " + positions[2] + "\n");
+		initContestants();
+		System.out.println("A started at Intersection: " + aStart);
+		System.out.println("B started at Intersection: " + bStart);
+		System.out.println("C started at Intersection: " + cStart + "\n");
 		adjTable = createAdjacencyTable(streets);
 		for (int i = 0; i < numOfIntersections; i++) {
 			dijkstra(adjTable, i);
@@ -65,8 +65,9 @@ public class CompetitionDijkstra {
 		//printGraph(aTimeGraph, "aTimeGraph");
 		//printGraph(bTimeGraph, "bTimeGraph");
 		//printGraph(cTimeGraph, "cTimeGraph");
-		int time = (int) getMinTimeNeeded(aTimeGraph, bTimeGraph, cTimeGraph);
-		return time;
+		double time = getMinTimeNeeded(aTimeGraph, bTimeGraph, cTimeGraph);
+		time = Math.ceil(time);
+		return (int) time;
 	}
 
 	public double[][] createTimeGraph(double[][] graph, int speed) {
@@ -79,8 +80,7 @@ public class CompetitionDijkstra {
 		return speedGraph;
 	}
 
-	public int[] initContestants() {
-		int[] pos = new int[NUM_OF_CONTESTANTS];
+	public void initContestants() {
 		this.aStart = (int) (Math.floor(Math.random() * numOfIntersections));
 		this.bStart = (int) (Math.floor(Math.random() * numOfIntersections));
 		this.cStart = (int) (Math.floor(Math.random() * numOfIntersections));
@@ -94,10 +94,6 @@ public class CompetitionDijkstra {
 				cStart = (int) (Math.floor(Math.random() * numOfIntersections));
 			}
 		}
-		pos[0] = aStart;
-		pos[1] = bStart;
-		pos[2] = cStart;
-		return pos;
 	}
 
 	public String[] readFile(String file) throws FileNotFoundException, IOException {
@@ -141,7 +137,7 @@ public class CompetitionDijkstra {
 //		System.out.println();
 //	}
 
-	public int getMinTimeNeeded(double[][] aTimeGraph, double[][] bTimeGraph, double[][] cTimeGraph) {
+	public double getMinTimeNeeded(double[][] aTimeGraph, double[][] bTimeGraph, double[][] cTimeGraph) {
 		double[] aTimes = new double[numOfIntersections];
 		double[] bTimes = new double[numOfIntersections];
 		double[] cTimes = new double[numOfIntersections];
@@ -165,8 +161,7 @@ public class CompetitionDijkstra {
 			}
 		}
 		System.out.println("They meet at Intersection: " + node);
-		int returnedTime = (int) Math.ceil(minIndTime);
-		return returnedTime;
+		return minIndTime;
 	}
 
 	public double getMaxDouble(double a, double b, double c) {
@@ -182,10 +177,10 @@ public class CompetitionDijkstra {
 		double min = Double.MAX_VALUE;
 		int min_index = -1;
 
-		for (int v = 0; v < numOfIntersections; v++)
-			if (sptSet[v] == false && dist[v] <= min) {
-				min = dist[v];
-				min_index = v;
+		for (int i = 0; i < numOfIntersections; i++)
+			if (sptSet[i] == false && dist[i] <= min) {
+				min = dist[i];
+				min_index = i;
 			}
 
 		return min_index;
@@ -202,17 +197,17 @@ public class CompetitionDijkstra {
 
 		dist[src] = 0;
 
-		for (int count = 0; count < numOfIntersections - 1; count++) {
+		for (int i = 0; i < numOfIntersections - 1; i++) {
 			int u = minDistance(dist, sptSet);
 
 			sptSet[u] = true;
 
-			for (int v = 0; v < numOfIntersections; v++) {
-				if (!sptSet[v] && graph[u][v] != 0 && dist[u] != Integer.MAX_VALUE && dist[u] + graph[u][v] < dist[v]) {
-					dist[v] = dist[u] + graph[u][v];
-					double val = dist[v] * 100;
+			for (int j = 0; j < numOfIntersections; j++) {
+				if (!sptSet[j] && graph[u][j] != 0 && dist[u] != Integer.MAX_VALUE && dist[u] + graph[u][j] < dist[j]) {
+					dist[j] = dist[u] + graph[u][j];
+					double val = dist[j] * 100;
 					val = Math.round(val);
-					dist[v] = val / 100;
+					dist[j] = val / 100;
 				}
 			}
 		}
