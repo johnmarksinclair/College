@@ -7,11 +7,11 @@ import java.io.*;
  * It should be clear that the contestants may arrive at the intersections at different times, in
  * which case, the first to arrive can wait until the others arrive.
  * From an estimated walking speed for each one of the three contestants, ACM wants to determine the
- * minimum time that a live TV broadcast should last to cover their journey regardless of the contestants’
+ * minimum time that a live TV broadcast should last to cover their journey regardless of the contestantsâ€™
  * initial positions and the intersection they finally meet. You are hired to help ACM answer this question.
  * You may assume the following:
- *     Each contestant walks at a given estimated speed.
- *     The city is a collection of intersections in which some pairs are connected by one-way
+ *    ï‚· Each contestant walks at a given estimated speed.
+ *    ï‚· The city is a collection of intersections in which some pairs are connected by one-way
  * streets that the contestants can use to traverse the city.
  *
  * This class implements the competition using Dijkstra's algorithm
@@ -49,7 +49,7 @@ public class CompetitionDijkstra {
 		System.out.println("A started at Intersection: " + aStart);
 		System.out.println("B started at Intersection: " + bStart);
 		System.out.println("C started at Intersection: " + cStart);
-		timeRequiredforCompetition();
+		System.out.println("\nMinimum time required for competition: " + timeRequiredforCompetition() + " minutes");
 	}
 
 	public static double[][] createTimeGraph(double[][] graph, int speed) {
@@ -128,7 +128,6 @@ public class CompetitionDijkstra {
 		double[][] bTimeGraph = createTimeGraph(adjTable, bSpeed);
 		double[][] cTimeGraph = createTimeGraph(adjTable, cSpeed);
 		int time = (int) getMinTimeNeeded(aTimeGraph, bTimeGraph, cTimeGraph);
-		System.out.println("Longest walk: " + time + " minutes");
 		return time;
 	}
 
@@ -155,7 +154,7 @@ public class CompetitionDijkstra {
 				node = i;
 			}
 		}
-		System.out.println("They meet at Intersection: " + node);
+		System.out.println("\nThey meet at Intersection: " + node);
 		return minIndTime;
 	}
 
@@ -212,6 +211,6 @@ public class CompetitionDijkstra {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		CompetitionDijkstra comp = new CompetitionDijkstra("tinyEWD.txt", 1, 1, 1);
+		CompetitionDijkstra comp = new CompetitionDijkstra("C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\tinyEWD.txt", 1, 1, 1); // avg speed is 84 
 	}
 }
