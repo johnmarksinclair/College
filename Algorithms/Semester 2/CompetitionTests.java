@@ -11,34 +11,52 @@ public class CompetitionTests {
 	public void testDijkstraConstructor() throws FileNotFoundException, IOException {
 		System.out.println("\nDijkstra:");
 		int[] speeds = getSpeeds();
-		CompetitionDijkstra comp = new CompetitionDijkstra(
+		CompetitionDijkstra smallComp = new CompetitionDijkstra(
+				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\tinyEWD.txt", speeds[0],
+				speeds[1], speeds[2]);
+		System.out.println("\nSmall Comp\nA is walking at " + smallComp.aSpeed + " m/m and started at Intersection "
+				+ smallComp.aStart);
+		System.out.println(
+				"B is walking at " + smallComp.bSpeed + " m/m and started at Intersection " + smallComp.bStart);
+		System.out.println(
+				"C is walking at " + smallComp.cSpeed + " m/m and started at Intersection " + smallComp.cStart);
+		int smallTime = smallComp.timeRequiredforCompetition();
+		System.out.println("\nMinimum time required for competition: " + smallTime + " minutes\n");
+		CompetitionDijkstra bigComp = new CompetitionDijkstra(
 				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\1000EWD.txt", speeds[0],
 				speeds[1], speeds[2]);
-//		CompetitionDijkstra comp = new CompetitionDijkstra(
-//				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\tinyEWD.txt", 1,
-//				1, 1);
-		System.out.println("\nA is walking at " + comp.aSpeed + " m/m and started at Intersection " + comp.aStart);
-		System.out.println("B is walking at " + comp.bSpeed + " m/m and started at Intersection " + comp.bStart);
-		System.out.println("C is walking at " + comp.cSpeed + " m/m and started at Intersection " + comp.cStart);
-		int time = comp.timeRequiredforCompetition();
-		System.out.println("\nMinimum time required for competition: " + time + " minutes\n");
+		System.out.println(
+				"\nBig Comp\nA is walking at " + bigComp.aSpeed + " m/m and started at Intersection " + bigComp.aStart);
+		System.out.println("B is walking at " + bigComp.bSpeed + " m/m and started at Intersection " + bigComp.bStart);
+		System.out.println("C is walking at " + bigComp.cSpeed + " m/m and started at Intersection " + bigComp.cStart);
+		int bigTime = bigComp.timeRequiredforCompetition();
+		System.out.println("\nMinimum time required for competition: " + bigTime + " minutes\n");
 	}
 
 	@Test
 	public void testFWConstructor() throws FileNotFoundException, IOException {
 		System.out.println("\nFloydWarshall:");
 		int[] speeds = getSpeeds();
-		CompetitionFloydWarshall comp = new CompetitionFloydWarshall(
+		CompetitionFloydWarshall smallComp = new CompetitionFloydWarshall(
+				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\tinyEWD.txt", speeds[0],
+				speeds[1], speeds[2]);
+		System.out.println("\nSmall Comp\nA is walking at " + smallComp.aSpeed + " m/m and started at Intersection "
+				+ smallComp.aStart);
+		System.out.println(
+				"B is walking at " + smallComp.bSpeed + " m/m and started at Intersection " + smallComp.bStart);
+		System.out.println(
+				"C is walking at " + smallComp.cSpeed + " m/m and started at Intersection " + smallComp.cStart);
+		int smallTime = smallComp.timeRequiredforCompetition();
+		System.out.println("\nMinimum time required for competition: " + smallTime + " minutes\n");
+		CompetitionFloydWarshall bigComp = new CompetitionFloydWarshall(
 				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\1000EWD.txt", speeds[0],
 				speeds[1], speeds[2]);
-//		CompetitionFloydWarshall comp = new CompetitionFloydWarshall(
-//				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\tinyEWD.txt", 1,
-//				1, 1);
-		System.out.println("\nA is walking at " + comp.aSpeed + " m/m and started at Intersection " + comp.aStart);
-		System.out.println("B is walking at " + comp.bSpeed + " m/m and started at Intersection " + comp.bStart);
-		System.out.println("C is walking at " + comp.cSpeed + " m/m and started at Intersection " + comp.cStart);
-		int time = comp.timeRequiredforCompetition();
-		System.out.println("\nMinimum time required for competition: " + time + " minutes\n");
+		System.out.println(
+				"\nBig Comp\nA is walking at " + bigComp.aSpeed + " m/m and started at Intersection " + bigComp.aStart);
+		System.out.println("B is walking at " + bigComp.bSpeed + " m/m and started at Intersection " + bigComp.bStart);
+		System.out.println("C is walking at " + bigComp.cSpeed + " m/m and started at Intersection " + bigComp.cStart);
+		int bigTime = bigComp.timeRequiredforCompetition();
+		System.out.println("\nMinimum time required for competition: " + bigTime + " minutes\n");
 	}
 
 	public int[] getSpeeds() {

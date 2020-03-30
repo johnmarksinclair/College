@@ -46,9 +46,6 @@ public class CompetitionFloydWarshall {
 		this.cSpeed = sC;
 		String[] streets = readFile(filename);
 		initContestants();
-//		aStart = 3;
-//		bStart = aStart;
-//		cStart = aStart;
 		adjTable = createAdjacencyTable(streets);
 		floydWarshall(adjTable);
 	}
@@ -75,16 +72,16 @@ public class CompetitionFloydWarshall {
 		this.aStart = (int) (Math.floor(Math.random() * numOfIntersections));
 		this.bStart = (int) (Math.floor(Math.random() * numOfIntersections));
 		this.cStart = (int) (Math.floor(Math.random() * numOfIntersections));
-//		while (bStart == aStart) {
-//			if (bStart == aStart) {
-//				bStart = (int) Math.floor(Math.random() * numOfIntersections);
-//			}
-//		}
-//		while (cStart == aStart || cStart == bStart) {
-//			if (cStart == aStart || cStart == bStart) {
-//				cStart = (int) (Math.floor(Math.random() * numOfIntersections));
-//			}
-//		}
+		while (bStart == aStart) {
+			if (bStart == aStart) {
+				bStart = (int) Math.floor(Math.random() * numOfIntersections);
+			}
+		}
+		while (cStart == aStart || cStart == bStart) {
+			if (cStart == aStart || cStart == bStart) {
+				cStart = (int) (Math.floor(Math.random() * numOfIntersections));
+			}
+		}
 	}
 
 	public double[][] createAdjacencyTable(String[] streets) {

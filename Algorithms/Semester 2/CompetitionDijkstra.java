@@ -42,9 +42,6 @@ public class CompetitionDijkstra {
 		this.cSpeed = sC;
 		String[] streets = readFile(filename);
 		initContestants();
-//		aStart = 3;
-//		bStart = aStart;
-//		cStart = aStart;
 		adjTable = createAdjacencyTable(streets);
 		for (int i = 0; i < numOfIntersections; i++) {
 			dijkstra(adjTable, i);
@@ -74,16 +71,16 @@ public class CompetitionDijkstra {
 		this.aStart = (int) (Math.floor(Math.random() * numOfIntersections));
 		this.bStart = (int) (Math.floor(Math.random() * numOfIntersections));
 		this.cStart = (int) (Math.floor(Math.random() * numOfIntersections));
-//		while (bStart == aStart) {
-//			if (bStart == aStart) {
-//				bStart = (int) Math.floor(Math.random() * numOfIntersections);
-//			}
-//		}
-//		while (cStart == aStart || cStart == bStart) {
-//			if (cStart == aStart || cStart == bStart) {
-//				cStart = (int) (Math.floor(Math.random() * numOfIntersections));
-//			}
-//		}
+		while (bStart == aStart) {
+			if (bStart == aStart) {
+				bStart = (int) Math.floor(Math.random() * numOfIntersections);
+			}
+		}
+		while (cStart == aStart || cStart == bStart) {
+			if (cStart == aStart || cStart == bStart) {
+				cStart = (int) (Math.floor(Math.random() * numOfIntersections));
+			}
+		}
 	}
 
 	public double[][] createAdjacencyTable(String[] streets) {
