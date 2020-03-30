@@ -11,9 +11,7 @@ public class CompetitionTests {
 	public void testDijkstraConstructor() throws FileNotFoundException, IOException {
 		System.out.println("\nDijkstra:");
 		int[] speeds = getSpeeds();
-		CompetitionDijkstra smallComp = new CompetitionDijkstra(
-				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\tinyEWD.txt", speeds[0],
-				speeds[1], speeds[2]);
+		CompetitionDijkstra smallComp = new CompetitionDijkstra("tinyEWD.txt", speeds[0], speeds[1], speeds[2]);
 		System.out.println("\nSmall Comp\nA is walking at " + smallComp.aSpeed + " m/m and started at Intersection "
 				+ smallComp.aStart);
 		System.out.println(
@@ -22,9 +20,7 @@ public class CompetitionTests {
 				"C is walking at " + smallComp.cSpeed + " m/m and started at Intersection " + smallComp.cStart);
 		int smallTime = smallComp.timeRequiredforCompetition();
 		System.out.println("\nMinimum time required for competition: " + smallTime + " minutes\n");
-		CompetitionDijkstra bigComp = new CompetitionDijkstra(
-				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\1000EWD.txt", speeds[0],
-				speeds[1], speeds[2]);
+		CompetitionDijkstra bigComp = new CompetitionDijkstra("1000EWD.txt", speeds[0], speeds[1], speeds[2]);
 		System.out.println(
 				"\nBig Comp\nA is walking at " + bigComp.aSpeed + " m/m and started at Intersection " + bigComp.aStart);
 		System.out.println("B is walking at " + bigComp.bSpeed + " m/m and started at Intersection " + bigComp.bStart);
@@ -37,9 +33,8 @@ public class CompetitionTests {
 	public void testFWConstructor() throws FileNotFoundException, IOException {
 		System.out.println("\nFloydWarshall:");
 		int[] speeds = getSpeeds();
-		CompetitionFloydWarshall smallComp = new CompetitionFloydWarshall(
-				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\tinyEWD.txt", speeds[0],
-				speeds[1], speeds[2]);
+		CompetitionFloydWarshall smallComp = new CompetitionFloydWarshall("tinyEWD.txt", speeds[0], speeds[1],
+				speeds[2]);
 		System.out.println("\nSmall Comp\nA is walking at " + smallComp.aSpeed + " m/m and started at Intersection "
 				+ smallComp.aStart);
 		System.out.println(
@@ -48,9 +43,7 @@ public class CompetitionTests {
 				"C is walking at " + smallComp.cSpeed + " m/m and started at Intersection " + smallComp.cStart);
 		int smallTime = smallComp.timeRequiredforCompetition();
 		System.out.println("\nMinimum time required for competition: " + smallTime + " minutes\n");
-		CompetitionFloydWarshall bigComp = new CompetitionFloydWarshall(
-				"C:\\Users\\John\\Documents\\Git Repos\\College\\Algorithms\\Semester 2\\1000EWD.txt", speeds[0],
-				speeds[1], speeds[2]);
+		CompetitionFloydWarshall bigComp = new CompetitionFloydWarshall("1000EWD.txt", speeds[0], speeds[1], speeds[2]);
 		System.out.println(
 				"\nBig Comp\nA is walking at " + bigComp.aSpeed + " m/m and started at Intersection " + bigComp.aStart);
 		System.out.println("B is walking at " + bigComp.bSpeed + " m/m and started at Intersection " + bigComp.bStart);
