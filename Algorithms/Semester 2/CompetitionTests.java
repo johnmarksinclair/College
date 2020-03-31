@@ -1,62 +1,59 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 public class CompetitionTests {
 
-	public final int NUM_OF_CONTESTANTS = 3;
+	/*
+	 * Test Files 
+	 * empty.txt - No intersections or streets
+	 */
 
 	@Test
-	public void testDijkstraConstructor() throws FileNotFoundException, IOException {
-		System.out.println("\nDijkstra:");
-		int[] speeds = getSpeeds();
-		CompetitionDijkstra smallComp = new CompetitionDijkstra("tinyEWD.txt", speeds[0], speeds[1], speeds[2]);
-		System.out.println("\nSmall Comp\nA is walking at " + smallComp.aSpeed + " m/m and started at Intersection "
-				+ smallComp.aStart);
-		System.out.println(
-				"B is walking at " + smallComp.bSpeed + " m/m and started at Intersection " + smallComp.bStart);
-		System.out.println(
-				"C is walking at " + smallComp.cSpeed + " m/m and started at Intersection " + smallComp.cStart);
-		int smallTime = smallComp.timeRequiredforCompetition();
-		System.out.println("\nMinimum time required for competition: " + smallTime + " minutes\n");
-		CompetitionDijkstra bigComp = new CompetitionDijkstra("1000EWD.txt", speeds[0], speeds[1], speeds[2]);
-		System.out.println(
-				"\nBig Comp\nA is walking at " + bigComp.aSpeed + " m/m and started at Intersection " + bigComp.aStart);
-		System.out.println("B is walking at " + bigComp.bSpeed + " m/m and started at Intersection " + bigComp.bStart);
-		System.out.println("C is walking at " + bigComp.cSpeed + " m/m and started at Intersection " + bigComp.cStart);
-		int bigTime = bigComp.timeRequiredforCompetition();
-		System.out.println("\nMinimum time required for competition: " + bigTime + " minutes\n");
+	public void testDijkstraConstructor() {
+		String valid = "tinyEWD.txt";
+		String invalid = "empty.txt";
+
+		int result1 = new CompetitionDijkstra("", 50, 50, 50).timeRequiredforCompetition();
+		assertEquals("invalid filename should return -1", -1, result1);
+
+		int result2 = new CompetitionDijkstra(valid, 100, 20, 60).timeRequiredforCompetition();
+		assertEquals("too slow", -1, result2);
+
+		int result3 = new CompetitionDijkstra(invalid, 60, 60, 50).timeRequiredforCompetition();
+		assertEquals("no intersections or streets, fails", -1, result3);
+
+		int result4 = new CompetitionDijkstra(valid, 50, 60, 70).timeRequiredforCompetition();
+		assertEquals("valid file should return 38", 38, result4);
+
+		int result5 = new CompetitionDijkstra(valid, 60, 50, 60).timeRequiredforCompetition();
+		assertEquals("Valid, b as slowest", 38, result5);
+
+		int result6 = new CompetitionDijkstra(valid, 60, 60, 50).timeRequiredforCompetition();
+		assertEquals("valid, c as slowest", 38, result6);
 	}
 
 	@Test
-	public void testFWConstructor() throws FileNotFoundException, IOException {
-		System.out.println("\nFloydWarshall:");
-		int[] speeds = getSpeeds();
-		CompetitionFloydWarshall smallComp = new CompetitionFloydWarshall("tinyEWD.txt", speeds[0], speeds[1],
-				speeds[2]);
-		System.out.println("\nSmall Comp\nA is walking at " + smallComp.aSpeed + " m/m and started at Intersection "
-				+ smallComp.aStart);
-		System.out.println(
-				"B is walking at " + smallComp.bSpeed + " m/m and started at Intersection " + smallComp.bStart);
-		System.out.println(
-				"C is walking at " + smallComp.cSpeed + " m/m and started at Intersection " + smallComp.cStart);
-		int smallTime = smallComp.timeRequiredforCompetition();
-		System.out.println("\nMinimum time required for competition: " + smallTime + " minutes\n");
-		CompetitionFloydWarshall bigComp = new CompetitionFloydWarshall("1000EWD.txt", speeds[0], speeds[1], speeds[2]);
-		System.out.println(
-				"\nBig Comp\nA is walking at " + bigComp.aSpeed + " m/m and started at Intersection " + bigComp.aStart);
-		System.out.println("B is walking at " + bigComp.bSpeed + " m/m and started at Intersection " + bigComp.bStart);
-		System.out.println("C is walking at " + bigComp.cSpeed + " m/m and started at Intersection " + bigComp.cStart);
-		int bigTime = bigComp.timeRequiredforCompetition();
-		System.out.println("\nMinimum time required for competition: " + bigTime + " minutes\n");
-	}
+	public void testFWConstructor() {
+		String valid = "tinyEWD.txt";
+		String invalid = "empty.txt";
 
-	public int[] getSpeeds() {
-		int[] speeds = new int[NUM_OF_CONTESTANTS];
-		for (int i = 0; i < NUM_OF_CONTESTANTS; i++) {
-			speeds[i] = (int) (Math.floor(Math.random() * 50) + 50);
-		}
-		return speeds;
+		int result1 = new CompetitionFloydWarshall("", 50, 50, 50).timeRequiredforCompetition();
+		assertEquals("invalid filename should return -1", result1, -1);
+
+		int result2 = new CompetitionFloydWarshall(valid, 100, 20, 60).timeRequiredforCompetition();
+		assertEquals("too slow", -1, result2);
+
+		int result3 = new CompetitionFloydWarshall(invalid, 60, 60, 50).timeRequiredforCompetition();
+		assertEquals("no intersections, fails", -1, result3);
+
+		int result4 = new CompetitionFloydWarshall(valid, 50, 60, 70).timeRequiredforCompetition();
+		assertEquals("valid file should return 38", 38, result4);
+
+		int result5 = new CompetitionFloydWarshall(valid, 60, 50, 60).timeRequiredforCompetition();
+		assertEquals("Valid, b as slowest", 38, result5);
+
+		int result6 = new CompetitionFloydWarshall(valid, 60, 60, 50).timeRequiredforCompetition();
+		assertEquals("valid, c as slowest", 38, result6);
 	}
 }

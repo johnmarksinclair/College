@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
 
 /*
  * A Contest to Meet (ACM) is a reality TV contest that sets three contestants at three random
@@ -22,108 +20,57 @@ import java.io.IOException;
 
 public class CompetitionFloydWarshall {
 
-	public final int NUM_OF_CONTESTANTS = 3;
-	public final int INF = 999;
-	public int numOfIntersections;
-	public int numOfStreets;
-	public int aSpeed;
-	public int bSpeed;
-	public int cSpeed;
-	public int aStart;
-	public int bStart;
-	public int cStart;
-	public double[][] adjTable;
+	String filename = "";
+	int sA = 0;
+	int sB = 0;
+	int sC = 0;
+	int intersections = 0;
+	int streets = 0;
+	boolean valid = true;
+
+	ArrayList<String> graphString = null;
+	double[][] graph = null;
 
 	/**
 	 * @param filename: A filename containing the details of the city road network
 	 * @param sA,       sB, sC: speeds for 3 contestants
-	 * @throws IOException
-	 * @throws FileNotFoundException
 	 */
-	CompetitionFloydWarshall(String filename, int sA, int sB, int sC) throws FileNotFoundException, IOException {
-		this.aSpeed = sA;
-		this.bSpeed = sB;
-		this.cSpeed = sC;
-		String[] streets = readFile(filename);
-		initContestants();
-		adjTable = createAdjacencyTable(streets);
-		floydWarshall(adjTable);
+	CompetitionFloydWarshall(String filename, int sA, int sB, int sC) {
+		this.filename = filename;
+		this.sA = sA;
+		this.sB = sB;
+		this.sC = sC;
+		this.intersections = 0;
+		this.streets = 0;
+		this.graphString = new ArrayList<String>();
+		parseFile(fileScanner(filename));
 	}
 
-	public String[] readFile(String file) throws FileNotFoundException, IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		String street;
-		int index = 0;
-		numOfIntersections = Integer.parseInt(reader.readLine());
-		numOfStreets = Integer.parseInt(reader.readLine());
-		String[] streets = new String[numOfStreets];
-		while ((street = reader.readLine()) != null) {
-			street = street.trim();
-			street = street.replaceAll("   ", " ");
-			street = street.replaceAll("  ", " ");
-			streets[index] = street;
-			index++;
-		}
-		reader.close();
-		return streets;
-	}
-
-	public void initContestants() {
-		this.aStart = (int) (Math.floor(Math.random() * numOfIntersections));
-		this.bStart = (int) (Math.floor(Math.random() * numOfIntersections));
-		this.cStart = (int) (Math.floor(Math.random() * numOfIntersections));
-		while (bStart == aStart) {
-			if (bStart == aStart) {
-				bStart = (int) Math.floor(Math.random() * numOfIntersections);
-			}
-		}
-		while (cStart == aStart || cStart == bStart) {
-			if (cStart == aStart || cStart == bStart) {
-				cStart = (int) (Math.floor(Math.random() * numOfIntersections));
-			}
+	private Scanner fileScanner(String fileName) {
+		try {
+			Scanner fileScan = new Scanner(new File(fileName));
+			return fileScan;
+		} catch (Exception e) {
+			valid = false;
+			return null;
 		}
 	}
 
-	public double[][] createAdjacencyTable(String[] streets) {
-		int src;
-		int dst;
-		double length;
-		double[][] adjTable = new double[numOfIntersections][numOfIntersections];
-		adjTable = makeInf(adjTable);
-		for (int i = 0; i < streets.length; i++) {
-			String[] street = streets[i].split(" ");
-			src = Integer.parseInt(street[0]);
-			dst = Integer.parseInt(street[1]);
-			length = Double.parseDouble(street[2]);
-			adjTable[dst][src] = length;
-		}
-		return adjTable;
-	}
-
-	public double[][] makeInf(double graph[][]) {
-		for (int i = 0; i < numOfIntersections; i++) {
-			for (int j = 0; j < numOfIntersections; j++) {
-				if (i != j) {
-					graph[i][j] = INF;
+	private void parseFile(Scanner scannedFile) {
+		if (valid) {
+			graphString.clear();
+			try {
+				if (scannedFile.hasNextInt()) {
+					this.intersections = scannedFile.nextInt();
 				}
-			}
-		}
-		return graph;
-	}
-
-	public void floydWarshall(double graph[][]) {
-		for (int k = 0; k < numOfIntersections; k++) {
-			for (int i = 0; i < numOfIntersections; i++) {
-				for (int j = 0; j < numOfIntersections; j++) {
-					double a = graph[i][k];
-					double b = graph[k][j];
-					double c = graph[i][j];
-					if (a + b < c) {
-						double val = (a + b) * 100;
-						val = Math.round(val);
-						graph[i][j] = val / 100;
-					}
+				if (scannedFile.hasNextInt()) {
+					this.streets = scannedFile.nextInt();
+					scannedFile.nextLine();
 				}
+				while (scannedFile.hasNextLine()) {
+					graphString.add(scannedFile.nextLine());
+				}
+			} catch (Exception e) {
 			}
 		}
 	}
@@ -132,76 +79,76 @@ public class CompetitionFloydWarshall {
 	 * @return int: minimum minutes that will pass before the three contestants can
 	 *         meet
 	 */
-	public int timeRequiredforCompetition() throws FileNotFoundException, IOException {
-		double[][] aTimeGraph = createTimeGraph(adjTable, this.aSpeed);
-		double[][] bTimeGraph = createTimeGraph(adjTable, this.bSpeed);
-		double[][] cTimeGraph = createTimeGraph(adjTable, this.cSpeed);
-//		printGraph(aTimeGraph, "aTimeGraph");
-//		printGraph(bTimeGraph, "bTimeGraph");
-//		printGraph(cTimeGraph, "cTimeGraph");
-		double time = getMinTimeNeeded(aTimeGraph, bTimeGraph, cTimeGraph);
-		time = Math.ceil(time);
-		return (int) time;
-	}
+	public int timeRequiredforCompetition() {
+		if (!valid) {
+			return -1;
+		}
+		if (this.intersections == 0) {
+			return -1;
+		}
+		if ((sA > 100 || sA < 50) || (sB > 100 || sB < 50) || (sC > 100 || sC < 50)) {
+			return -1;
+		}
 
-	public double[][] createTimeGraph(double[][] graph, int speed) {
-		double[][] speedGraph = new double[numOfIntersections][numOfIntersections];
-		for (int i = 0; i < numOfIntersections; i++) {
-			for (int j = 0; j < numOfIntersections; j++) {
-				speedGraph[i][j] = ((graph[i][j]) / speed) * 1000;
+		int slowestSpeed = 0;
+		if (this.sA < this.sB && this.sA < this.sC)
+			slowestSpeed = sA;
+		else if (this.sB < this.sA && this.sB < this.sC)
+			slowestSpeed = this.sB;
+		else
+			slowestSpeed = this.sC;
+
+		graph = createGraph();
+		floydWarshall(graph, intersections);
+
+		double maxDistance = 0;
+		for (double[] array : graph) {
+			for (double dist : array) {
+				if (maxDistance < dist)
+					maxDistance = dist;
 			}
 		}
-		return speedGraph;
+
+		if (maxDistance == Double.POSITIVE_INFINITY)
+			return -1;
+		else
+			return (int) Math.ceil((maxDistance * 1000) / slowestSpeed);
 	}
 
-	public double getMinTimeNeeded(double[][] aTimeGraph, double[][] bTimeGraph, double[][] cTimeGraph) { // worst case
-		double[] aTimes = new double[numOfIntersections];
-		double[] bTimes = new double[numOfIntersections];
-		double[] cTimes = new double[numOfIntersections];
-		for (int i = 0; i < numOfIntersections; i++) {
-			aTimes[i] = aTimeGraph[i][aStart];
-			bTimes[i] = bTimeGraph[i][bStart];
-			cTimes[i] = cTimeGraph[i][cStart];
-		}
+	private double[][] createGraph() {
+		double[][] graph = new double[this.intersections][this.intersections];
 
-		double minIndTime = 0;
-		int node = -1;
-
-		for (int i = 0; i < numOfIntersections; i++) {
-			double a = aTimes[i];
-			double b = bTimes[i];
-			double c = cTimes[i];
-			double indTime = getMaxDouble(a, b, c);
-			if (indTime > minIndTime) {
-				minIndTime = indTime;
-				node = i;
+		for (int i = 0; i < this.intersections; i++) {
+			for (int j = 0; j < this.intersections; j++) {
+				graph[i][j] = Double.POSITIVE_INFINITY;
 			}
 		}
-		System.out.println("\nThey meet at Intersection: " + node);
-		return minIndTime;
+		for (int i = 0; i < this.intersections; i++) {
+			graph[i][i] = 0;
+		}
+
+		for (int i = 0; (i < this.graphString.size()); i++) {
+			Scanner lineReader = new Scanner(this.graphString.get(i));
+			int street = lineReader.nextInt();
+			int connectingStreet = lineReader.nextInt();
+			double distance = lineReader.nextDouble();
+
+			graph[street][connectingStreet] = distance;
+			lineReader.close();
+		}
+
+		return graph;
 	}
 
-	public double getMaxDouble(double a, double b, double c) {
-		double max = a;
-		if (b > max)
-			max = b;
-		if (c > max)
-			max = c;
-		return max;
+	private void floydWarshall(double[][] graph, int nodes) {
+		for (int k = 0; k < nodes; k++) {
+			for (int i = 0; i < nodes; i++) {
+				for (int j = 0; j < nodes; j++) {
+					if (graph[i][j] > graph[i][k] + graph[k][j]) {
+						graph[i][j] = graph[i][k] + graph[k][j];
+					}
+				}
+			}
+		}
 	}
-
-//	public void printGraph(double[][] graph, String title) {
-//		System.out.println(title);
-//		for (int i = 0; i < numOfIntersections; i++) {
-//			for (int j = 0; j < numOfIntersections; j++) {
-//				if (graph[i][j] == INF) {
-//					System.out.print("INF, ");
-//				} else {
-//					System.out.print(graph[i][j] + ", ");
-//				}
-//			}
-//			System.out.println();
-//		}
-//		System.out.println();
-//	}
 }
