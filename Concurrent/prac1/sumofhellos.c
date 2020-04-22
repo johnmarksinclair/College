@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #define NUM_THREADS 6
-#define USERNAME "username"
+#define USERNAME "sinclajo"
 
 int x; // Global variable !!
 
