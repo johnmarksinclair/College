@@ -9,7 +9,7 @@ entity memory_m is
 		clk: in STD_LOGIC;
 		data_in : in STD_LOGIC_VECTOR(15 downto 0);
 		address : in STD_LOGIC_VECTOR(15 downto 0);
-		data_out : out STD_LOGIC_VECTOR(15 downto 0);
+		data_out : out STD_LOGIC_VECTOR(15 downto 0)
 	);
 end memory_m;
 
@@ -21,10 +21,10 @@ begin
 	memory_m: process(data_in, memory_write, clk)
 		variable control_mem : mem_array:=(
 		-- 0
-		x"00C7", -- 0
-		x"00C5", -- 1
-		x"0FFD", -- 2
-		x"00C4", -- 3
+		x"0007", -- 0
+		x"0001", -- 1
+		x"0000", -- 2
+		x"0000", -- 3
 		x"0000", -- 4
 		x"0000", -- 5
 		x"0000", -- 6

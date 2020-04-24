@@ -10,13 +10,13 @@ port(
 	s : in  STD_LOGIC;
 	in0 : in  STD_LOGIC_VECTOR(15 downto 0);
 	in1 : in  STD_LOGIC_VECTOR(15 downto 0);
-	output : out  STD_LOGIC_VECTOR(15 downto 0);
+	output : out  STD_LOGIC_VECTOR(15 downto 0)
 );
 end component;
 --In
 signal s : STD_LOGIC := '0';
-signal in0 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-signal in1 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
+signal in0 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal in1 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
 --Out
 signal output : STD_LOGIC_VECTOR(15 downto 0);
  

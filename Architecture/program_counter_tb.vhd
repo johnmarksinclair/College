@@ -12,7 +12,7 @@ component program_counter
 		pi: in STD_LOGIC;
 		clk: in STD_LOGIC;
 		offset : in STD_LOGIC_VECTOR(15 downto 0);
-		output : out STD_LOGIC_VECTOR(15 downto 0);
+		output : out STD_LOGIC_VECTOR(15 downto 0)
 	);
 end component;
 --In

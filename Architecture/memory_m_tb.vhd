@@ -12,7 +12,7 @@ port(
 	clk : in STD_LOGIC;
 	data_in : in STD_LOGIC_VECTOR(15 downto 0);
 	address : in STD_LOGIC_VECTOR(15 downto 0);
-	data_out : out STD_LOGIC_VECTOR(15 downto 0);
+	data_out : out STD_LOGIC_VECTOR(15 downto 0)
 );
 end component;
 --In

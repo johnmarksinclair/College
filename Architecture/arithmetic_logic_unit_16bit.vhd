@@ -11,7 +11,7 @@ entity arithmetic_logic_unit_16bit is
 		negative : out STD_LOGIC;
 		overflow : out STD_LOGIC;
 		zero : out STD_LOGIC;
-		output : out  STD_LOGIC_VECTOR(15 downto 0);
+		output : out  STD_LOGIC_VECTOR(15 downto 0)
 	);
 end arithmetic_logic_unit_16bit;
 
@@ -22,7 +22,7 @@ component multiplexor_2_16bit
          s : in  STD_LOGIC;
          in0 : in  STD_LOGIC_VECTOR(15 downto 0);
          in1 : in  STD_LOGIC_VECTOR(15 downto 0);
-         output : out  STD_LOGIC_VECTOR(15 downto 0);
+         output : out  STD_LOGIC_VECTOR(15 downto 0)
     );
 end component;
 
@@ -42,7 +42,7 @@ component logic_unit_16bit
 		s : in STD_LOGIC_VECTOR(1 downto 0);
 		input_a : in  STD_LOGIC_VECTOR(15 downto 0);
 		input_b : in  STD_LOGIC_VECTOR(15 downto 0);
-		output : out  STD_LOGIC_VECTOR(15 downto 0);
+		output : out  STD_LOGIC_VECTOR(15 downto 0)
 	);
 end component;
 

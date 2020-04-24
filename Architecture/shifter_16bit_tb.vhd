@@ -16,7 +16,7 @@ end component;
 --In
 signal s0 : STD_LOGIC := '0';
 signal s1 : STD_LOGIC := '0';
-signal input : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
+signal input : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
 --Out
 signal output : STD_LOGIC_VECTOR(15 downto 0);
  

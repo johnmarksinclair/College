@@ -17,23 +17,21 @@ component multiplexor_8_16bit
 		in5 : in  STD_LOGIC_VECTOR(15 downto 0);
 		in6 : in  STD_LOGIC_VECTOR(15 downto 0);
 		in7 : in  STD_LOGIC_VECTOR(15 downto 0);
-		output : out  STD_LOGIC_VECTOR(15 downto 0);
+		output : out  STD_LOGIC_VECTOR(15 downto 0)
 	);
-end component;
-    
+end component;    
 --In
 signal s0 : STD_LOGIC := '0';
 signal s1 : STD_LOGIC := '0';
 signal s2 : STD_LOGIC := '0';
-signal in0 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-signal in1 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-signal in2 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-signal in3 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-signal in4 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-signal in5 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-signal in6 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-signal in7 : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
-
+signal in0 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal in1 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal in2 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal in3 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal in4 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal in5 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal in6 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
+signal in7 : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
 --Out
 signal output : STD_LOGIC_VECTOR(15 downto 0);
  

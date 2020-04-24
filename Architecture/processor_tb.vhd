@@ -20,7 +20,7 @@ port(
     reg8: out STD_LOGIC_VECTOR(15 downto 0);
     PC_test : out STD_LOGIC_VECTOR(15 downto 0);
     control_out : out STD_LOGIC_VECTOR(27 downto 0);
-    ir_in : out STD_LOGIC_VECTOR(15 downto 0);
+    ir_in : out STD_LOGIC_VECTOR(15 downto 0)
 );
 end component;
 

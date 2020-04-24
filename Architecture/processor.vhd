@@ -15,7 +15,7 @@ port(
     reg8: out STD_LOGIC_VECTOR(15 downto 0);
     PC_test : out STD_LOGIC_VECTOR(15 downto 0);
     control_out : out STD_LOGIC_VECTOR(27 downto 0);
-    ir_in : out STD_LOGIC_VECTOR(15 downto 0);
+    ir_in : out STD_LOGIC_VECTOR(15 downto 0)
 );		
 end processor;
 
@@ -56,7 +56,7 @@ component memory_m
 		  clk : in STD_LOGIC;
 		  data_in : in STD_LOGIC_VECTOR(15 downto 0);
 		  address : in STD_LOGIC_VECTOR(15 downto 0);
-      data_out : out STD_LOGIC_VECTOR(15 downto 0);
+      data_out : out STD_LOGIC_VECTOR(15 downto 0)
   );
 end component;
 
@@ -88,7 +88,7 @@ component multiplexor_2_16bit
         s : in  STD_LOGIC;
         in0 : in  STD_LOGIC_VECTOR(15 downto 0);
         in1 : in  STD_LOGIC_VECTOR(15 downto 0);
-        output : out  STD_LOGIC_VECTOR(15 downto 0);
+        output : out  STD_LOGIC_VECTOR(15 downto 0)
     );
 end component;
 

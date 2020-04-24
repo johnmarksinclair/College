@@ -21,7 +21,7 @@ component multiplexor_4_16bit
 		in1 : in  STD_LOGIC_VECTOR(15 downto 0);
 		in2 : in  STD_LOGIC_VECTOR(15 downto 0);
 		in3 : in  STD_LOGIC_VECTOR(15 downto 0);
-		output : out  STD_LOGIC_VECTOR(15 downto 0);
+		output : out  STD_LOGIC_VECTOR(15 downto 0)
 	);
 end component;
 

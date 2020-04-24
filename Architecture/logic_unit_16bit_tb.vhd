@@ -11,7 +11,7 @@ component logic_unit_16bit
 		s : in STD_LOGIC_VECTOR(1 downto 0);
 		input_a : in  STD_LOGIC_VECTOR(15 downto 0);
 		input_b : in  STD_LOGIC_VECTOR(15 downto 0);
-		output : out  STD_LOGIC_VECTOR(15 downto 0);
+		output : out  STD_LOGIC_VECTOR(15 downto 0)
 	);
 end component;
 --In

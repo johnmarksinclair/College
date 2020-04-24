@@ -10,23 +10,23 @@ component register_16bit
 port(
 	input: in STD_LOGIC_VECTOR(15 downto 0);
 	load, clk : in STD_LOGIC;
-	output: out STD_LOGIC_VECTOR(15 downto 0);
+	output: out STD_LOGIC_VECTOR(15 downto 0)
 );
 end component;
 
 --In
 signal load : STD_LOGIC := '0';
 signal clk : STD_LOGIC := '0';
-signal input : STD_LOGIC_VECTOR(15 downto 0); := (others => '0');
+signal input : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
 --Out
 signal output : STD_LOGIC_VECTOR(15 downto 0);
    
 begin
 	uut: register_16bit port map (
-	load => load,
-	clk => clk,
-	input => input,
-	output => output
+        load => load,
+        clk => clk,
+        input => input,
+        output => output
 	);
 
 	stim_proc: process

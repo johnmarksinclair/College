@@ -32,7 +32,7 @@ component register_16bit
 port(
 	input: in STD_LOGIC_VECTOR(15 downto 0);
 	load, clk : in STD_LOGIC;
-	output: out STD_LOGIC_VECTOR(15 downto 0);
+	output: out STD_LOGIC_VECTOR(15 downto 0)
 );
 end component;
 
