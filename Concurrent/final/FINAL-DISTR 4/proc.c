@@ -30,11 +30,49 @@ void initproc(struct proc *p) {
     // ADD EXTRA FIELD INITIALISATIONS BELOW AS REQUIRED
 }
 
-void adjustpriority(struct proc *p) {
-  // very simple for now
-  p->dynprio = p->staticprio;
+int max(int a, int b) {
+  return (a > b) ? a : b;
 }
 
+int min(int a, int b) {
+  return (a > b) ? b : a;
+}
+
+int bonusLookupTable(int avg_time) {
+  if (avg_time >= 0 && avg_time < 1000) {
+    return (avg_time/100);
+  } else if (avg_time >= 1000) {
+    return 10;
+  }
+  return 0;
+}
+
+void adjustpriority(struct proc *p) {
+  // very simple for now
+  if (p->staticprio < 120) {
+    p->quantum = (140 - p->staticprio)*20;
+  } else {
+    p->quantum = (140 - p->staticprio)*5;
+  }
+
+  if (p->lastrun_again != p->lastrun) {
+    p->lastrun_again = p->lastrun;
+    int time = clock - p->lastrun;
+    p->last_time = time;
+    p->total_sleep_time += time;
+    p->times_slept += 1;
+  } else {
+    p->total_sleep_time += (clock - p->lastrun - p->last_time);
+  }
+  if (p->times_slept == 0) {
+    p->avgsleep = p->total_sleep_time;
+  } else {
+    p->avgsleep = p->total_sleep_time/p->times_slept;
+  }
+  int bonus = bonusLookupTable(p->avgsleep);
+  p->dynprio = max(100, min(p->staticprio - bonus + 5, 139));
+  //p->dynprio = p->staticprio;
+}
 
 // DO NOT MODIFY THIS
 void adjustpriorities() {

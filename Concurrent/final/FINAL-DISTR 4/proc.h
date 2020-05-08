@@ -24,6 +24,10 @@ struct proc {
   int quantum;     // Base Time Quantum
   int dynprio;     // Dynamic Priority - used by scheduler
   // ADD EXTRA FIELDS BELOW AS REQUIRED
+  int total_sleep_time;
+  int times_slept;
+  int lastrun_again;
+  int last_time;
 };
 
 struct {

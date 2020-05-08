@@ -157,6 +157,57 @@ bmap(struct inode *ip, uint bn)
     //printf("bmap returns %u\n",addr);
     return addr;
   }
+  bn -= NINDIRECT;
+
+  if(bn < NIND2) {
+    if((addr = ip->addrs[NDIRECT+1]) == 0) {
+      ip->addrs[NDIRECT+1] = addr = indalloc();
+    }
+
+    a = indirect[addr];
+    uint bn2 = (bn/NDIRECT+1);
+    if((addr = a[bn2]) == 0){
+      a[bn2] = addr = indalloc(ip->dev);
+      // log_write(bp);
+    }
+
+    a = indirect[addr];
+    bn2 = bn%(NDIRECT+1);
+    if((addr = a[bn2]) == 0){
+      a[bn2] = addr = balloc(ip->dev);
+      // log_write(bp);
+    }
+    return addr;
+  }
+  bn -= NINDIRECT;
+
+  if(bn < NIND3) {
+    if((addr = ip->addrs[NDIRECT+1]) == 0) {
+      ip->addrs[NDIRECT+1] = addr = indalloc();
+    }
+
+    a = indirect[addr];
+    uint bn3 = (bn/(NDIRECT+1)*(NDIRECT+1));
+    if((addr = a[bn3]) == 0){
+      a[bn3] = addr = indalloc(ip->dev);
+      // log_write(bp);
+    }
+
+    a = indirect[addr];
+    bn3 = bn3/4;
+    if((addr = a[bn3]) == 0){
+      a[bn3] = addr = indalloc(ip->dev);
+      // log_write(bp);
+    }
+
+    a = indirect[addr];
+    bn3 = (bn%NDIRECT+1);
+    if((addr = a[bn3]) == 0){
+      a[bn3] = addr = balloc(ip->dev);
+      // log_write(bp);
+    }
+    return addr;
+  }
 
   panic("bmap: out of range");
   return 0;
