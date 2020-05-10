@@ -12,14 +12,14 @@ inline Input(n) {
 }
 
 active proctype FA() {
-  byte h;
-  byte i[LEN];
-  if
-  :: Input(0); Input(1); Input(2); Input(3); i[4] = '.';
-  :: Input(0); Input(1); Input(2); i[3] = '.';
-  :: Input(0); Input(1); i[2] = '.';
-  :: Input(0); i[1] = '.'
-  fi
+    byte h;
+    byte i[LEN];
+    if
+    :: Input(0); Input(1); Input(2); Input(3); i[4] = '.';
+    :: Input(0); Input(1); Input(2); i[3] = '.';
+    :: Input(0); Input(1); i[2] = '.';
+    :: Input(0); i[1] = '.'
+    fi
 q0: if
     :: i[h] == 'a'  -> printf("@TRANS q0 a q1\n"); h++; goto q1;
     :: i[h] == 'a'  -> printf("@TRANS q0 a q2\n"); h++; goto q2;
@@ -49,7 +49,6 @@ q5: if
 q6: if
     :: i[h] == '.'  -> printf("@TRANS q6 . accept\n"); goto accept
     fi;
-
 accept:
     printf("Accepted!\n");
 	assert(false)
