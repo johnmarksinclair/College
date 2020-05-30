@@ -1,0 +1,96 @@
+class Textbox {
+  public int X, Y, H, W;
+  public color Background = color(140, 140, 140);
+  public color Foreground = color(0, 0, 0);
+  public color selectedBackground = color(180, 180, 180);
+  public String text = "";
+  public String thisReturnedText = "";
+  public int textLength = 0;
+  boolean selected = false;
+
+  Textbox(int x, int y, int w, int h) {
+    X = x; 
+    Y = y; 
+    W = w; 
+    H = h;
+  }
+
+  void draw() {
+    if (selected) {
+      fill(selectedBackground);
+    } else {
+      fill(Background);
+    }
+    noStroke();
+    rect(X, Y, W, H);
+    fill(Foreground);
+    textSize(SEARCH_SIZE);
+    text(text, X + 10, Y + SEARCH_SIZE);
+    if (!selected) {
+      fill(255);
+      text("Search", X+10, Y+25);
+    }
+  }
+
+  boolean keypressed(char KEY, int KEYCODE) {
+    if (selected) {
+      if (KEYCODE == BACKSPACE) {
+        backspace();
+      } else if (KEYCODE == 32) {
+        addText(' ');
+      } else if (KEYCODE == ENTER) {
+        return true;
+      } else {
+        boolean isKeyCapitalLetter = (KEY >= 'A' && KEY <= 'Z');
+        boolean isKeySmallLetter = (KEY >= 'a' && KEY <= 'z');
+        boolean isKeyNumber = (KEY >= '0' && KEY <= '9');
+        if (isKeyCapitalLetter || isKeySmallLetter || isKeyNumber) {
+          addText(KEY);
+        }
+      }
+    }
+    return false;
+  }
+
+  private void addText(char text) {
+    if (textWidth(this.text + text) < W) {
+      this.text += text;
+      textLength++;
+    }
+  }
+
+  private void backspace() {
+    if (textLength - 1 >= 0) {
+      this.text = this.text.substring(0, textLength - 1);
+      textLength--;
+    }
+  }
+
+  private void clearTextField() {
+    boolean finished = false;
+    while (!finished) {
+      if (textLength - 1 >= 0) {
+        this.text = this.text.substring(0, textLength - 1);
+        textLength--;
+      } else {
+        finished = true;
+      }
+    }
+  }
+
+  private boolean inBounds(int x, int y) {
+    if (x >= X && x <= X + W && y >= Y && y <= Y + H) {
+      return true;
+    }
+    return false;
+  }
+
+  void clickedOn(int x, int y) {
+    if (inBounds(x, y)) {
+      selected = true;
+    } else {
+      clearTextField();
+      selected = false;
+    }
+  }
+}

@@ -1,0 +1,115 @@
+import java.util.*;
+
+ArrayList<Story> storyList;
+ArrayList<Comment> commentList;
+JSONObject temp;
+int currentQuery;
+int numberOfMatchingStories, numberOfMatchingComments;
+String currentQueryType;
+Textbox textbox;
+String username;
+ArrayList<Story> matchingStories = new ArrayList<Story>();
+ArrayList<Comment> matchingComments = new ArrayList<Comment>();
+int showOtherWidgets;
+ArrayList<Widget> listOfWidgets;
+
+
+void settings() {
+  size(SCREENX, SCREENY);
+  loadStrings();
+}
+
+void setup() {
+  listOfWidgets=new ArrayList<Widget>();
+  Widget widget1=new Widget(SCREENX-SEARCHBARX-WIDGET_LENGTH, HEADER_DEPTH-WIDGET_HEIGHT, WIDGET_LENGTH, WIDGET_HEIGHT, "Sort By: ", WIDGET_COLOR, WIDGET1_EVENT);
+  listOfWidgets.add(widget1);
+  Widget widget2=new Widget(SCREENX-SEARCHBARX-WIDGET_LENGTH, HEADER_DEPTH-WIDGET_HEIGHT+WIDGET_HEIGHT, WIDGET_LENGTH, WIDGET_HEIGHT, "Author", WIDGET_COLOR, WIDGET2_EVENT);
+  listOfWidgets.add(widget2);
+  Widget widget3=new Widget(SCREENX-SEARCHBARX-WIDGET_LENGTH, HEADER_DEPTH-WIDGET_HEIGHT+2*WIDGET_HEIGHT, WIDGET_LENGTH, WIDGET_HEIGHT, "Time", WIDGET_COLOR, WIDGET3_EVENT);
+  listOfWidgets.add(widget3);
+  Widget widget4=new Widget(SCREENX-SEARCHBARX-WIDGET_LENGTH, HEADER_DEPTH-WIDGET_HEIGHT+3*WIDGET_HEIGHT, WIDGET_LENGTH, WIDGET_HEIGHT, "Stories", WIDGET_COLOR, WIDGET4_EVENT);
+  listOfWidgets.add(widget4);
+  Widget widget5=new Widget(SCREENX-SEARCHBARX-WIDGET_LENGTH, HEADER_DEPTH-WIDGET_HEIGHT+4*WIDGET_HEIGHT, WIDGET_LENGTH, WIDGET_HEIGHT, "Comments", WIDGET_COLOR, WIDGET5_EVENT);
+  listOfWidgets.add(widget5);
+  showOtherWidgets=-1;
+  textbox = new Textbox(SCREENX-SEARCHBARX, 0, SEARCHBARX, SEARCHBARY);
+}
+
+void draw() {
+  textbox.draw();
+  init_interFace();
+  if (listOfWidgets!=null) {
+    if (showOtherWidgets == 1) {
+      for (int i=0; i<listOfWidgets.size(); i++) {
+        listOfWidgets.get(i).show();
+      }
+    } else if (showOtherWidgets == -1) {
+      listOfWidgets.get(SORT_BY_INDEX).show();
+    }
+  }
+}
+
+void mousePressed() {
+  textbox.clickedOn(mouseX, mouseY);
+  for (int i = 0; i < listOfWidgets.size(); i++)
+  {
+    Widget current = listOfWidgets.get(i);
+    switch(current.getEvent(mouseX, mouseY))
+    {
+    case WIDGET1_EVENT:
+      changeWidgets();
+      break;
+    case WIDGET2_EVENT:
+      setQuery(USER_QUERY);
+      break;
+    case WIDGET3_EVENT:
+      break;
+    case WIDGET4_EVENT:
+      setQuery(STORY_QUERY);
+      break;
+    case WIDGET5_EVENT:
+      setQuery(COMMENT_QUERY);
+      break;
+    }
+  }
+}
+
+void keyPressed() {
+  if (textbox.keypressed(key, keyCode)) {
+    query();
+  }
+}
+
+void setQuery(int current) {
+  currentQuery = current;
+}
+
+void query() {
+  switch (currentQuery) {
+  case USER_QUERY:
+    String username = textbox.text; //tests: ["pg": first json object author (72, 368)], ["BrandonM": last json object author (2, 62)]
+    searchUsername(username);
+    println("No. of matching stories: " + numberOfMatchingStories);
+    println("No. of matching comments: " + numberOfMatchingComments);
+    break;
+  case STORY_QUERY:
+    String text = textbox.text;
+    matchingStories = searchStoryTitles(text);
+    println("No. of matching stories: " + matchingStories.size());
+    break;
+  case COMMENT_QUERY:
+    break;
+  }
+}
+
+void init_interFace() {
+  textSize(TEXT_SIZE);
+  fill(0);
+  text("Hacker News", 0, HEADER_DEPTH-5); 
+  stroke(255);
+  line(0, HEADER_DEPTH, width, HEADER_DEPTH);
+}
+
+void changeWidgets() {
+  showOtherWidgets*=-1;
+}

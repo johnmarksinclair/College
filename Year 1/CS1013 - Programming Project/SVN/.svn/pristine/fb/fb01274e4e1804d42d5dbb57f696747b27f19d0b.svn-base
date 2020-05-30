@@ -1,0 +1,36 @@
+public class Story
+{ 
+  
+    int descendants; 
+    int time; 
+    int id;
+    String title; 
+    String type;
+    String by;
+    String url;
+    int score;
+    PFont newsFont;
+  
+   Story(int score, int descendants, String url , int time,int id , String title, String type, String by, PFont newsFont) {
+      this.descendants = descendants; 
+      this.score = score;
+      this.id = id;  
+      this.time = time;
+      this.url = url;
+      this.title = title;
+      this.by = by;
+      this.type = type;
+      this.newsFont = newsFont;
+    }
+    
+    void draw() {
+      println(descendants + " " + score + " " + id + " " + time + " " + url + " " + title + " " + by + " " + type);           
+      text("Descendants:  " + descendants + "\nScore:  " + score + "\nID:  " + id + "\nTime:  " + time + "\nURL:  " + url + "\nTitle:  " + title + "\nAuthor:  " + by + "\n" + type, 50, 100);
+    }
+    
+    
+    
+    
+  
+  
+}

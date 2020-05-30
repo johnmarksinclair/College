@@ -1,0 +1,13 @@
+//prints out a list of Story objects to the console
+void printStoryList(ArrayList<Story> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printStory();
+  }
+}
+
+//prints out a list of Comment objects to the console
+void printCommentList(ArrayList<Comment> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printComment();
+  }
+}

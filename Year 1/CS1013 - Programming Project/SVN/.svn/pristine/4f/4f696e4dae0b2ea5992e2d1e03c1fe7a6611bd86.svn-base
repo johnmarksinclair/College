@@ -1,0 +1,60 @@
+//prints out a list of Story objects
+void printStoryList(ArrayList<Story> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printStory();
+  }
+}
+
+//prints out a list of Comment objects
+void printCommentList(ArrayList<Comment> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printComment();
+  }
+}
+
+//prints out story titles to screen
+void printHomepageStories() {
+  textFont(titleFont);
+  textSize(SUB_HEADING_SIZE);
+  fill(0);
+  text("Most Recent Stories:", WIDGETX + 10, MAIN_BANNER_Y + SUB_BANNER_Y + 30);
+  textFont(widgetFont);
+  for (int i = 0; i < storyList.size(); i++) {
+    textSize(STORY_SIZE);
+    text(storyList.get(i).score, WIDGETX + 15, MAIN_BANNER_Y + SUB_BANNER_Y + 65 +(i*40));
+    text(storyList.get(i).title, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 60 +(i*40));
+    textSize(AUTHOR_SIZE);
+    text("Author: " + storyList.get(i).by, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 75 +(i*40));
+  }
+}
+
+//prints out matching stories
+void printMatchingStories() {
+  if (matchingStories.size() >= 1) {
+    for (int i = 0; i < matchingStories.size(); i++) {
+      textSize(STORY_SIZE);
+      fill(0);
+      text(matchingStories.get(i).score, WIDGETX + 15, MAIN_BANNER_Y + SUB_BANNER_Y + 35 +(i*40));
+      text(matchingStories.get(i).title, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 30 +(i*40));
+      textSize(AUTHOR_SIZE);
+      text("Author: " + matchingStories.get(i).by, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 45 +(i*40));
+    }
+  } else {
+    fill(0);
+    text("No Matches", WIDGETX + 10, MAIN_BANNER_Y + SUB_BANNER_Y + 30);
+  }
+}
+
+//void printMatchingComments() {
+//  if (matchingComments.size() >= 1) {
+//    for (int i = 0; i < matchingComments.size(); i++) {
+//      textSize(STORY_SIZE);
+//      text(commentList.get(i).parent, WIDGETX + 10, MAIN_BANNER_Y + 30 +(i*40));
+//      textSize(AUTHOR_SIZE);
+//      text("Author: " + commentList.get(i).by, WIDGETX + 10, MAIN_BANNER_Y + 40 +(i*40));
+//    }
+//  } else {
+//    fill(0);
+//    text("No Matches", WIDGETX + 10, MAIN_BANNER_Y + 30);
+//  }
+//}

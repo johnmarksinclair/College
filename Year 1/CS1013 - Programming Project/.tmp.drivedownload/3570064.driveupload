@@ -1,0 +1,25 @@
+public final int SCREENX = 900;
+public final int SCREENY = 600;
+public final int EVENT_BUTTON1=1;
+public final int EVENT_BUTTON2=2;
+public final int EVENT_BUTTON3=3;
+public final int EVENT_NULL=0; 
+public final int WIDGETX = 150;
+public final int WIDGETY= 60;
+//Queries
+final int USER_QUERY = 1;
+final int STORY_QUERY = 2;
+final int COMMENT_QUERY = 3;
+//Textbox
+final int SEARCHBARX = 300;
+final int SEARCHBARY = 30;
+final int TEXT_SIZE = 24;
+//Widgets
+final int USER_WIDGET_EVENT = 5;
+final int WIDGET1_EVENT = 1;
+final int WIDGET2_EVENT = 2;
+final int WIDGET3_EVENT = 3;
+final int WIDGET4_EVENT = 4;
+final int WIDGET5_EVENT = 5;
+
+public Widget widgetQuery, widget2, widgetType, widgetBack, widgetStory, widgetComment, widgetAuthor, widget10, widget20, widget30, widget40, widget50, widget60;

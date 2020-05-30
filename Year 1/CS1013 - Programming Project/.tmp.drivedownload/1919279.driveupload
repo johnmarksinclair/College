@@ -1,0 +1,27 @@
+//prints out a list of Story objects
+void printStoryList(ArrayList<Story> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printStory();
+  }
+}
+
+//prints out a list of Comment objects
+void printCommentList(ArrayList<Comment> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printComment();
+  }
+}
+
+//prints out story titles to screen
+void printHomepageStories() {
+  for (int i = 0; i < 15; i++) {
+    text(storyList.get(i).title, WIDGETX + 10, BANNERY + 30 +(i*50));
+  }
+}
+
+//prints out matching stories
+void printMatchingStories() {
+  for (int i = 0; i < 15; i++) {
+    text(matchingStories.get(i).title, WIDGETX + 10, BANNERY + 30 +(i*50));
+  }
+}

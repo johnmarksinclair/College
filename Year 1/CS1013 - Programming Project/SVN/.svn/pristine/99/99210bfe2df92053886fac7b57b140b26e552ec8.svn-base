@@ -1,0 +1,24 @@
+final int SCREENX = 900;
+final int SCREENY = 600;
+//Buttons
+final int QUERY_BUTTON=1;
+final int BACK_BUTTON=2;
+final int TYPE_BUTTON=3;
+final int STORY_BUTTON=4;
+final int COMMENT_BUTTON=5;
+final int AUTHOR_BUTTON = 6;
+
+final int EVENT_NULL=0; 
+//Widget Info
+final int WIDGETX = 150;
+final int WIDGETY= 60;
+//Queries Types
+final int USER_QUERY = 1;
+final int STORY_QUERY = 2;
+final int COMMENT_QUERY = 3;
+//Textbox Info
+final int SEARCHBARX = 300;
+final int SEARCHBARY = 30;
+final int TEXT_SIZE = 24;
+
+public Widget widgetQuery, widget2, widgetType, widgetBack, widgetStory, widgetComment, widgetAuthor, widget10, widget20, widget30, widget40, widget50, widget60;

@@ -1,0 +1,39 @@
+PFont stdFont;
+JSONArray values;
+JSONObject json;
+
+void setup(){
+  loadStrings();
+}
+
+void loadStrings() {
+    json = loadJSONObject("news.json");
+    
+    JSONArray values = json.getJSONArray("kids");
+  
+  for (int i = 0; i < values.size(); i++) {
+    if (i == 0)
+    {
+      print("[");
+    }
+    int kids = values.getInt(i);
+    if (i == values.size()-1)
+    {
+      print(kids + "]");
+    }
+    else
+    {
+      print(kids + ",");
+    }
+  }
+    int descendants = json.getInt("descendants");
+    String url = json.getString("url");
+    String title = json.getString("title");
+    String by = json.getString("by");
+    int score = json.getInt("score");
+    int time = json.getInt("time");
+    String type = json.getString("type");
+    int id = json.getInt("id");
+
+    println(", " + descendants + ", " + url + ", " + title + ", " + by + ", " + score + ", " + time + ", " + type + ", " + id);
+  }

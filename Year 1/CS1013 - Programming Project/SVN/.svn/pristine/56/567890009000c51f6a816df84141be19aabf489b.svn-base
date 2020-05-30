@@ -1,0 +1,44 @@
+import java.io.*;
+
+JSONArray values;
+JSONObject json;
+JSONArray dataArray;
+ArrayList <Comment> commentList = new ArrayList();
+ArrayList <Story> storyList = new ArrayList();
+
+void setup() {
+  loadStrings();
+}
+
+void loadStrings() {
+
+  JSONObject temp = loadJSONObject("news.json");
+  String type = temp.getString("type");
+  if (type.equals("story")) {
+    JSONArray kidValues = temp.getJSONArray("kids");
+    ArrayList<Integer> kidsList = new ArrayList<Integer>();
+    for (int index = 0; index < kidValues.size(); index++) {
+      kidsList.add(kidValues.getInt(index));
+    }
+    int descendants = temp.getInt("descendants");
+    String url = temp.getString("url");
+    String title = temp.getString("title");
+    String by = temp.getString("by");
+    int score = temp.getInt("score");
+    int time = temp.getInt("time");
+    int id = temp.getInt("id");
+    Story story = new Story(descendants, url, title, by, score, time, id);
+    story.printStory();
+    storyList.add(story);
+  } 
+  else {
+    int parent = temp.getInt("parent");
+    String text = temp.getString("text");
+    int id = temp.getInt("id");
+    int time = temp.getInt("time");
+    String by = temp.getString("by");
+    Comment comment = new Comment(parent, text, id, time, by);
+    commentList.add(comment);
+  }
+  //}
+}

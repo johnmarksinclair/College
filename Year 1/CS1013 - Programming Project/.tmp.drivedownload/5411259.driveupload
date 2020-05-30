@@ -1,0 +1,26 @@
+class Comment {
+  
+  int kids;
+  int parent;
+  String text;
+  String by;
+  int time;
+  int id;
+  String comment;
+  
+  Comment (int kids, int parent, String text, String by, int time, int id, String comment){
+    this.kids = kids;
+    this.parent = parent;
+    this.text = text;
+    this.by = by;
+    this.time = time;
+    this.id = id;
+    this.comment = comment;
+  }
+  
+  void draw(){
+    text("Kids:  " + kids + "\nParent:  " + parent + "\nID:  " + id + "\nTime:  " + time + "\nText:  " + text + "\nBy:  " + by + "\nComment" + comment, 50, 100);
+  }
+  
+  
+}

@@ -1,0 +1,38 @@
+PFont myFont;
+JSONArray values;
+JSONObject json;
+ArrayList <Comment> commentList = new ArrayList();
+ArrayList <Story> storyList = new ArrayList();
+
+void setup(){
+  size(600, 400);
+  myFont = loadFont("Algerian-16.vlw");
+  loadStrings();
+}
+
+void loadStrings() {
+    json = loadJSONObject("news.json");
+    
+    String type = json.getString("type");
+  
+  for (int i = 0; i < 3; i++) {
+    if (type == "comment")
+    {
+      println("comment");
+    }
+    else
+    {
+      print("story");
+    }
+  }
+    int descendants = json.getInt("descendants");
+    String url = json.getString("url");
+    String title = json.getString("title");
+    String by = json.getString("by");
+    int score = json.getInt("score");
+    int time = json.getInt("time");
+    type = json.getString("type");
+    int id = json.getInt("id");
+
+    println(", " + descendants + ", " + url + ", " + title + ", " + by + ", " + score + ", " + time + ", " + type + ", " + id);
+  }

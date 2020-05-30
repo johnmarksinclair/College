@@ -1,0 +1,177 @@
+import java.util.*;
+
+ArrayList<Story> storyList = new ArrayList<Story>();
+ArrayList<Comment> commentList = new ArrayList<Comment>();
+JSONObject temp;
+ArrayList<String> usernameList = new ArrayList<String>();
+PFont stdFont;
+  final int EVENT_BUTTON1=1;
+  final int EVENT_BUTTON2=2;
+  final int EVENT_NULL=0; 
+  int currentScreen = 0;
+  Screen screen1;
+  Screen screen2;
+  text textBox;
+
+void setup() {
+  loadStrings();
+  ArrayList<Story> userRelevantStories = searchUserStory("pg"); //searching for pg - should be 5 story objects in the first 20
+  Widget widget1, widget2;
+    screen1 = new Screen();
+    screen2 = new Screen();
+    
+    size(600, 400);
+    stdFont=loadFont("Serif-16.vlw"); 
+    textFont(stdFont); 
+    widget1 = new Widget(50, 50, 100, 40,"QUERY", color(0,255,0), stdFont, EVENT_BUTTON1);
+    widget2 = new Widget(20, 20, 100, 40,"Back", color(0,150,255), stdFont, EVENT_BUTTON2);
+    textBox = new text(width-180, 30, 200, 30);
+    screen1.addWidget(widget1);
+    screen2.addWidget(widget2);
+    
+  //printStoryList(userRelevantStories);
+}
+
+void loadStrings() {
+  String[] lines = loadStrings("news.json");
+  for (int index = 0; index < 20/*lines.length*/; index++) {
+    temp = parseJSONObject(lines[index]);
+    if (temp.hasKey("type")) {
+      String type = temp.getString("type");
+      if (type.equals("story")) {
+        ArrayList<Integer> kids = new ArrayList<Integer>();
+        if (temp.hasKey("kids")) {
+          JSONArray kidValues = temp.getJSONArray("kids");
+          for (int i = 0; i < kidValues.size(); i++) {
+            int tempKid = kidValues.getInt(i);
+            kids.add(tempKid);
+          }
+        }
+        int descendants = -1;
+        if (temp.hasKey("descendants")) {
+          descendants = temp.getInt("descendants");
+        }
+        String url = temp.getString("url");
+        String title = temp.getString("title");
+        String by = temp.getString("by");
+        int score = 0;
+        if (temp.hasKey("score")) {
+          score = temp.getInt("score");
+        }
+        int time = temp.getInt("time");
+        int id = temp.getInt("id");
+        Story story = new Story(kids, descendants, url, title, by, score, time, id);
+        storyList.add(story);
+        story.printStory();
+      } else {
+        ArrayList<Integer> kids = new ArrayList<Integer>();
+        if (temp.hasKey("kids")) {
+          JSONArray kidValues = temp.getJSONArray("kids");
+          for (int i = 0; i < kidValues.size(); i++) {
+            int tempKid = kidValues.getInt(i);
+            kids.add(tempKid);
+          }
+        }
+        int parent = temp.getInt("parent");
+        String text = temp.getString("text");
+        int id = temp.getInt("id");
+        int time = temp.getInt("time");
+        String by = temp.getString("by");
+        Comment comment = new Comment(kids, parent, text, id, time, by);
+        commentList.add(comment);
+        comment.printComment();
+      }
+    }
+  }
+}
+
+ArrayList<Story> searchUserStory(String username) {
+  ArrayList<Story> relevantStories = new ArrayList<Story>();
+  for (int index = 0; index < storyList.size(); index++) {
+    if (username.equals(storyList.get(index).id)) {
+      relevantStories.add(storyList.get(index));
+    }
+  }
+  return relevantStories;
+}
+
+void printStoryList(ArrayList<Story> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printStory();
+  }
+}
+
+
+// controlP5 - graphs
+
+
+//void addNewUser(String username) {
+//  boolean newUser = true;
+//  for (int index = 0; index < usernameList.size(); index++) {
+//    if (username.equals(usernameList.get(index))) {
+//      newUser = false;
+//    }
+//  }
+//  if (newUser) {
+//    usernameList.add(username);
+//  }
+//}
+
+//void addNewUser(Comment object) {
+//  boolean newUser = true;
+//  for (int index = 0; index < usernameList.size(); index++) {
+//    if (object.by.equals(usernameList.get(index))) {
+//      newUser = false;
+//    }
+//  }
+//  if (newUser) {
+//    usernameList.add(object.by);
+//  }
+//}
+
+//void addNewUser(Story object) {
+//  boolean newUser = true;
+//  for (int index = 0; index < usernameList.size(); index++) {
+//    if (object.by.equals(usernameList.get(index))) {
+//      newUser = false;
+//    }
+//  }
+//  if (newUser) {
+//    usernameList.add(object.by);
+//  }
+//}
+
+
+
+void draw(){
+  if (currentScreen == 0)
+  {
+    background(65,108,225);
+    textBox.draw();
+    screen1.draw();
+  }
+  else if (currentScreen == 1)
+  {
+    background(100);
+    screen2.draw();
+  }
+}
+  
+void mousePressed(){ 
+  int event;
+  if (currentScreen == 0){
+    event = screen1.mousePressed();
+  }
+  else
+  {
+    event = screen2.mousePressed();
+  }
+switch(event) {
+case EVENT_BUTTON1: 
+currentScreen = 1;
+break;
+case EVENT_BUTTON2:
+currentScreen = 0;
+break;
+} 
+}

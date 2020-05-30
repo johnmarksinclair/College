@@ -1,0 +1,199 @@
+import java.util.*;
+
+ArrayList<Story> storyList = new ArrayList<Story>();
+ArrayList<Comment> commentList = new ArrayList<Comment>();
+JSONObject temp;
+int numberOfMatchingStories, numberOfMatchingComments;
+String currentQueryType;
+Textbox textbox;
+String text, msg, username;
+
+void setup() {
+  fill(0);
+  size(400, 100);
+  textbox = new Textbox(0, 0, 380, 80);
+}
+
+void draw() {
+  textbox.draw();
+}
+
+void mousePressed() {
+  textbox.pressed(mouseX, mouseY);
+}
+
+void keyPressed() {
+  if (textbox.keypressed(key, keyCode)) {
+    msg = "Looking for: " + textbox.Text;
+  }
+  if (key == ENTER) {
+    loadStrings();
+    setQuery("username");
+  }
+}
+
+void setQuery(String queryType) {
+  switch (queryType) {
+  case "username":
+    String username = textbox.Text;
+    //String username = "pg"; //first json object author
+    //String username = "BrandonM"; //last json object author
+    searchUsername(username);
+    println("No. of matching stories: " + numberOfMatchingStories);
+    println("No. of matching comments: " + numberOfMatchingComments);
+    break;
+  }
+}
+
+void loadStrings() {
+  String[] lines = loadStrings("news.json");
+  for (int index = 0; index < lines.length; index++) {
+    temp = parseJSONObject(lines[index]);
+    if (temp.hasKey("type")) {
+      String type = temp.getString("type");
+      if (type.equals("story")) {
+        ArrayList<Integer> kids = new ArrayList<Integer>();
+        if (temp.hasKey("kids")) {
+          JSONArray kidValues = temp.getJSONArray("kids");
+          for (int i = 0; i < kidValues.size(); i++) {
+            int tempKid = kidValues.getInt(i);
+            kids.add(tempKid);
+          }
+        }
+        int descendants = -1;
+        if (temp.hasKey("descendants")) {
+          descendants = temp.getInt("descendants");
+        }
+        String url = temp.getString("url");
+        String title = temp.getString("title");
+        String by = "N/A";
+        if (temp.hasKey("by")) {
+          by = temp.getString("by");
+        }
+        int score = 0;
+        if (temp.hasKey("score")) {
+          score = temp.getInt("score");
+        }
+        int time = temp.getInt("time");
+        int id = temp.getInt("id");
+        Story story = new Story(kids, descendants, url, title, by, score, time, id);
+        storyList.add(story);
+        //story.printStory();
+      } else {
+        ArrayList<Integer> kids = new ArrayList<Integer>();
+        if (temp.hasKey("kids")) {
+          JSONArray kidValues = temp.getJSONArray("kids");
+          for (int i = 0; i < kidValues.size(); i++) {
+            int tempKid = kidValues.getInt(i);
+            kids.add(tempKid);
+          }
+        }
+        int parent = temp.getInt("parent");
+        String text = temp.getString("text");
+        int id = temp.getInt("id");
+        int time = temp.getInt("time");
+        String by = "N/A";
+        if (temp.hasKey("by")) {
+          by = temp.getString("by");
+        }
+        Comment comment = new Comment(kids, parent, text, id, time, by);
+        commentList.add(comment);
+        //comment.printComment();
+      }
+    }
+  }
+}
+
+//seaches both comments and stories for those matching a username and updates the numbe rof matching stories/ comments
+void searchUsername(String username) {
+  ArrayList<Story> matchingStories = new ArrayList<Story>(searchUserStory(username));
+  numberOfMatchingStories = matchingStories.size();
+  printStoryList(matchingStories);
+  ArrayList<Comment> matchingComments = new ArrayList<Comment>(searchUserComment(username));
+  numberOfMatchingComments = matchingComments.size();
+  printCommentList(matchingComments);
+}
+
+//searches stories for a specific username
+//parameters:
+//  username (String)
+//returns:
+//  an list of relevant stories
+ArrayList<Story> searchUserStory(String username) {
+  ArrayList<Story> relevantStories = new ArrayList<Story>();
+  for (int i = 0; i < storyList.size(); i++) {
+    if (storyList.get(i) != null) {
+      if (storyList.get(i).by.equals(username)) {
+        relevantStories.add(storyList.get(i));
+      }
+    }
+  }
+  return relevantStories;
+}
+
+//searches comments for a specific username
+//parameters:
+//  username (String)
+//returns:
+//  an list of relevant stories
+ArrayList<Comment> searchUserComment(String username) {
+  ArrayList<Comment> relevantComments = new ArrayList<Comment>();
+  for (int i = 0; i < commentList.size(); i++) {
+    if (commentList.get(i).by.equals(username)) {
+      relevantComments.add(commentList.get(i));
+    }
+  }
+  return relevantComments;
+}
+
+//prints out a list of Story objects
+void printStoryList(ArrayList<Story> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printStory();
+  }
+}
+
+//prints out a list of Comment objects
+void printCommentList(ArrayList<Comment> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printComment();
+  }
+}
+
+// controlP5 - graphs
+
+//void addNewUser(String username) {
+//  boolean newUser = true;
+//  for (int index = 0; index < usernameList.size(); index++) {
+//    if (username.equals(usernameList.get(index))) {
+//      newUser = false;
+//    }
+//  }
+//  if (newUser) {
+//    usernameList.add(username);
+//  }
+//}
+
+//void addNewUser(Comment object) {
+//  boolean newUser = true;
+//  for (int index = 0; index < usernameList.size(); index++) {
+//    if (object.by.equals(usernameList.get(index))) {
+//      newUser = false;
+//    }
+//  }
+//  if (newUser) {
+//    usernameList.add(object.by);
+//  }
+//}
+
+//void addNewUser(Story object) {
+//  boolean newUser = true;
+//  for (int index = 0; index < usernameList.size(); index++) {
+//    if (object.by.equals(usernameList.get(index))) {
+//      newUser = false;
+//    }
+//  }
+//  if (newUser) {
+//    usernameList.add(object.by);
+//  }
+//}

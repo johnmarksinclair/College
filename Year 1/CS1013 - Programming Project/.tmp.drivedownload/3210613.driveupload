@@ -1,0 +1,31 @@
+public class newsClass {
+
+  int descendants; 
+  int time; 
+  int id;
+  String title; 
+  String type;
+  String author;
+  String url;
+  int score;
+  PFont newsFont;
+
+  newsClass(int score, int descendants, String url, int time, int id, String title, String type, String author, PFont newsFont) {
+    this.descendants = descendants; 
+    this.score = score;
+    this.id = id;  
+    this.time = time;
+    this.url = url;
+    this.title = title;
+    this.author = author;
+    this.type = type;
+    this.newsFont = newsFont;
+  }
+  void setup() {
+    size(400, 400);
+  }
+  void draw() {
+    println(descendants + " " + score + " " + id + " " + time + " " + url + " " + title + " " + author + " " + type);           
+    text("Descendants:  " + descendants + "\nScore:  " + score + "\nID:  " + id + "\nTime:  " + time + "\nURL:  " + url + "\nTitle:  " + title + "\nAuthor:  " + author + "\n" + type, 50, 100);
+  }
+}

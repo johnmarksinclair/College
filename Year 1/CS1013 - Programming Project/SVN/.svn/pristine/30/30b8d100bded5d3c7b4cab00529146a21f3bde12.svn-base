@@ -1,0 +1,77 @@
+//prints out a list of Story objects
+void printStoryList(ArrayList<Story> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printStory();
+  }
+}
+
+//prints out a list of Comment objects
+void printCommentList(ArrayList<Comment> list) {
+  for (int index = 0; index < list.size(); index++) {
+    list.get(index).printComment();
+  }
+}
+
+//prints out homepage story titles to screen
+void printHomepageStories() {
+  if (recent) {
+    textFont(titleFont);
+    textSize(SUB_HEADING_SIZE);
+    fill(0);
+    text("Most Recent Stories:", WIDGETX + 10, MAIN_BANNER_Y + SUB_BANNER_Y + 30);
+    textFont(widgetFont);
+    for (int i = 0; i < latestStories.size(); i++) {
+      textSize(STORY_SIZE);
+      text(latestStories.get(i).score, WIDGETX + 15, MAIN_BANNER_Y + SUB_BANNER_Y + 65 +(i*40));
+      text(latestStories.get(i).title, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 60 +(i*40));
+      textSize(AUTHOR_SIZE);
+      text("Author: " + latestStories.get(i).by, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 75 +(i*40));
+      //text(latestStories.get(i).formattedTime, WIDGETX + 300, MAIN_BANNER_Y + SUB_BANNER_Y + 75 +(i*40));
+    }
+  } else {
+    textFont(titleFont);
+    textSize(SUB_HEADING_SIZE);
+    fill(0);
+    text("Most Popular Stories:", WIDGETX + 10, MAIN_BANNER_Y + SUB_BANNER_Y + 30);
+    textFont(widgetFont);
+    for (int i = 0; i < popularStories.size(); i++) {
+      textSize(STORY_SIZE);
+      text(popularStories.get(i).score, WIDGETX + 15, MAIN_BANNER_Y + SUB_BANNER_Y + 65 +(i*40));
+      text(popularStories.get(i).title, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 60 +(i*40));
+      textSize(AUTHOR_SIZE);
+      text("Author: " + popularStories.get(i).by, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 75 +(i*40));
+    }
+  }
+}
+
+//prints out matching stories
+void printMatchingStories() {
+  if (matchingStories.size() >= 1) {
+    for (int i = 0; i < matchingStories.size(); i++) {
+      textSize(STORY_SIZE);
+      fill(0);
+      text(matchingStories.get(i).score, WIDGETX + 15, MAIN_BANNER_Y + SUB_BANNER_Y + 35 +(i*40));
+      text(matchingStories.get(i).title, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 30 +(i*40));
+      textSize(AUTHOR_SIZE);
+      text("Author: " + matchingStories.get(i).by, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 45 +(i*40));
+    }
+  } else {
+    fill(0);
+    text("No Matches", WIDGETX + 10, MAIN_BANNER_Y + SUB_BANNER_Y + 30);
+  }
+}
+
+void printMatchingComments() {
+  if (matchingComments.size() >= 1) {
+    for (int i = 0; i < matchingComments.size(); i++) {
+      textSize(STORY_SIZE);
+      fill(0);
+      text(matchingComments.get(i).text, WIDGETX + 15, MAIN_BANNER_Y + SUB_BANNER_Y + 30 +(i*40));
+      textSize(AUTHOR_SIZE);
+      text("Author: " + matchingComments.get(i).by, WIDGETX + 45, MAIN_BANNER_Y + SUB_BANNER_Y + 45 +(i*40));
+    }
+  } else {
+    fill(0);
+    text("No Matches", WIDGETX + 10, MAIN_BANNER_Y + SUB_BANNER_Y + 30);
+  }
+}

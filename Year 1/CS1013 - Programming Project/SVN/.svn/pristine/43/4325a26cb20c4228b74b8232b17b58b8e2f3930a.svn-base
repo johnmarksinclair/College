@@ -1,0 +1,44 @@
+class Widget {            //Widget class done by Paul Lee
+  int x, y, width, height; 
+  String label; 
+  int event; 
+  color widgetColor, labelColor, strokeColour, selectedColor; 
+  PFont widgetFont;
+  boolean overButton;
+
+  Widget(int x, int y, int width, int height, String label, color widgetColor, color selectedColor, PFont widgetFont, int event) {
+    this.x=x;
+    this.y=y; 
+    this.width = width; 
+    this.height= height; 
+    this.label=label; 
+    this.event=event;
+    this.widgetColor=widgetColor; 
+    this.selectedColor = selectedColor;
+    this.widgetFont=widgetFont; 
+    labelColor= color(0);
+  }
+
+  void draw() {
+    if (overButton) {
+      fill(selectedColor);
+    } else {
+      fill(widgetColor);
+    }
+    stroke(strokeColour);
+    rect(x, y, width, height);
+    fill(labelColor);
+    textSize(WIDGET_SIZE);
+    text(label, x+5, y+height-7);
+  }
+
+  int getEvent(int mX, int mY) {
+    if (mX > this.x && mX < this.x+this.width && mY > this.y && mY < this.y+this.height) {
+      //overButton = true;
+      return event;
+    } else {
+      //overButton = false;
+      return EVENT_NULL;
+    }
+  }
+}

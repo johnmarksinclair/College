@@ -1,0 +1,22 @@
+final int SCREENX = 960;//1920;//960
+final int SCREENY = 540;//1000;//540
+final int SEARCHBARX = 300;
+final int SEARCHBARY = 30;
+final int TEXT_SIZE = 24;
+final int EVENT_NULL = 0;
+//Queries
+final int USER_QUERY = 1;
+final int STORY_QUERY = 2;
+final int COMMENT_QUERY = 3;
+//Widgets
+final int WIDGET1_EVENT = 1;
+final int WIDGET2_EVENT = 2;
+final int WIDGET3_EVENT = 3;
+final int WIDGET4_EVENT = 4;
+final int WIDGET5_EVENT = 5;
+final int WIDGET_LENGTH = 150;
+final int WIDGET_HEIGHT = 30;
+final int GAP = 60;
+final color WIDGET_COLOR = color (140, 140, 140);
+final int HEADER_DEPTH = 30;
+final int SORT_BY_INDEX = 0;

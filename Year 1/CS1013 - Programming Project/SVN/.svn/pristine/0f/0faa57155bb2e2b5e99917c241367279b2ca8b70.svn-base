@@ -1,0 +1,26 @@
+class Comment {
+
+  ArrayList<Integer> kids;
+  int parent;
+  String text;
+  int id;
+  int time;
+  String by;
+
+  Comment (int parent, String text, int id, int time, String by) {
+    //this.kids = kids;
+    this.parent = parent;
+    this.text = text;
+    this.by = by;
+    this.time = time;
+    this.id = id;
+  }
+
+  void draw() {
+    text("Kids:  " + kids + "\nParent:  " + parent + "\nID:  " + id + "\nTime:  " + time + "\nText:  " + text + "\nBy:  " + by, 50, 100);
+  }
+  
+  void printComment() {
+    
+  }
+}

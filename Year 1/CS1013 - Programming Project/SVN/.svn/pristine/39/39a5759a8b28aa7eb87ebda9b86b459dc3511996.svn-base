@@ -1,0 +1,37 @@
+void bubbleSort(ArrayList<Story> list) {
+  for (int index = list.size(); index >= list.size(); index--) {
+    for (int i = 0; i < list.size()-1; i++) {
+      if (list.get(i).score < list.get(i+1).score) {
+        swapPos(i, i+1, list);
+      }
+    }
+  }
+}
+
+void swapPos(int x, int y, ArrayList<Story> list) {
+  Story temp = list.get(x);
+  list.set(x, list.get(y));
+  list.set(y, temp);
+}
+
+//String formatUnixTime(int time) {
+//  String formattedTime = "";
+//  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//  String formattedDtm = Instant.ofEpochSecond(unixTime).atZone(ZoneId.of("GMT-4")).format(formatter);
+//  return formattedTime;
+//}
+
+String formatUnixTime(int time) { //1160418111 - 9/10/2006 18:21
+  int year, month, day, hour, minute;
+  year = (time/31556926) + 1970;
+  time %= 31556926;
+  month = time/2629743;
+  time %= 2629743;
+  day = time/86400;
+  time %= 86400;
+  hour = time/3600;
+  time %=3600;
+  minute = time/60;
+  String formattedTime = day + "/" + month + "/" + year + " " + hour + ":" + minute;
+  return formattedTime;
+}

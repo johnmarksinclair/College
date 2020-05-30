@@ -1,0 +1,30 @@
+class Story { 
+
+  ArrayList<Integer> kids;
+  int descendants; 
+  String url;
+  String title;
+  String by;
+  int score;
+  int time; 
+  int id;
+
+  Story (int descendants, String url, String title, String by, int score, int time, int id) {
+    this.descendants = descendants; 
+    this.score = score;
+    this.id = id;  
+    this.time = time;
+    this.url = url;
+    this.title = title;
+    this.by = by;
+  }
+
+  void draw() {
+    println(descendants + " " + score + " " + id + " " + time + " " + url + " " + title + " " + by + " ");           
+    text("Descendants:  " + descendants + "\nScore:  " + score + "\nID:  " + id + "\nTime:  " + time + "\nURL:  " + url + "\nTitle:  " + title + "\nAuthor:  " + by, 50, 100);
+  }
+
+  void printStory() {
+    println("Type: Story" + "\nDescendants: " + descendants + "\nUrl: " + url + "\nTitle: " + title + "\nby: " + by + "\nScore: " + score + "\nTime: " + time + "\nid: " + id);
+  }
+}

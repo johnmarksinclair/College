@@ -1,0 +1,38 @@
+PFont defaultFont;
+String[] newsArticleStrings;
+ArrayList<newsClass> newsArticles = new ArrayList();
+JSONObject news;
+int drawIndex = 0;
+
+void setup() {
+  size(600, 400);
+  defaultFont = loadFont("Algerian-16.vlw");
+  newsArticleStrings = loadStrings("news.json");
+  for (int index = 0; index < 10; index++) {
+    news = parseJSONObject(newsArticleStrings[index]);
+    int descendants = news.getInt("descendants");
+    int score = news.getInt("score");
+    int id = news.getInt("id");
+    int time = news.getInt("time");
+    String url = news.getString("url"); 
+    String title = news.getString("title");
+    String author = news.getString("author");
+    String type = news.getString("type");
+    newsClass newsArticle = new newsClass(descendants, score, id, time, url, title, author, type, defaultFont);
+    newsArticles.add(newsArticle);
+  }
+}
+
+void draw() {
+  background(100);
+  newsClass newsArticle = newsArticles.get(drawIndex);
+  newsArticle.draw();
+}
+
+void mouseClicked() {
+  if (drawIndex < newsArticles.size() - 1) {
+    drawIndex++;
+  } else {
+    drawIndex = 0;
+  }
+}

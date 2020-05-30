@@ -1,0 +1,15 @@
+void bubbleSort(ArrayList<Story> list) {
+  for (int index = list.size(); index >= list.size(); index--) {
+    for (int i = 0; i < list.size()-1; i++) {
+      if (list.get(i).score < list.get(i+1).score) {
+        swapPos(i, i+1, list);
+      }
+    }
+  }
+}
+
+void swapPos(int x, int y, ArrayList<Story> list) {
+  Story temp = list.get(x);
+  list.set(x, list.get(y));
+  list.set(y, temp);
+}

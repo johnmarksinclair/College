@@ -1,0 +1,35 @@
+final int SCREENX = 1200;
+final int SCREENY = 750;
+final int MAIN_BANNER_Y = 80;
+final int SUB_BANNER_Y = 30;
+//Buttons
+final int EVENT_NULL=0; 
+final int QUERY_BUTTON=1;
+final int BACK_BUTTON=2;
+final int SEARCH_BY_BUTTON=3;
+final int STORY_BUTTON=4;
+final int COMMENT_BUTTON = 5;
+final int AUTHOR_BUTTON = 6;
+final int SORT_BY_BUTTON = 7;
+final int MOST_POPULAR_BUTTON = 8;
+final int LATEST_BUTTON = 9;
+final int HOME_BUTTON = 10;
+//Text Sizes
+final int HEADING_SIZE = 48;
+final int SUB_HEADING_SIZE = 21;
+final int STORY_SIZE = 16;
+final int WIDGET_SIZE = 16;
+final int AUTHOR_SIZE = 9;
+//Widget Info
+final int WIDGETX = 105;
+final int WIDGETY= 30;
+//Queries Types
+final int USER_QUERY = 1;
+final int STORY_QUERY = 2;
+final int COMMENT_QUERY = 3;
+final int TIME_QUERY = 4;
+//Textbox Info
+final int SEARCHBARX = 300;
+final int SEARCHBARY = 30;
+
+public Widget widgetHomepage, widgetStats, widget2, widgetSearchBy, widgetBack, widgetStory, widgetComment, widgetAuthor, widgetSortBy, widgetOldToNew, widegetNewToOld, widgetMostPopular, widgetLatest;

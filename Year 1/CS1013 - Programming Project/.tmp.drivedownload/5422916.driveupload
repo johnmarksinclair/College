@@ -1,0 +1,35 @@
+class Widget {
+  float xpos;
+  float ypos;
+  float w;
+  float h;
+  String label;
+  color widgetColor;
+  int event;
+  
+  Widget(float x, float y, float w, float h, String widgetLabel, color wColor, int event) {
+    this.xpos=x;
+    this.ypos=y;
+    this.w=w;
+    this.h=h;
+    this.widgetColor=wColor;
+    this.label=widgetLabel;
+    this.event=event;
+  }
+  
+  void show() {
+    noStroke();
+    fill(this.widgetColor);
+    rect(this.xpos, this.ypos, this.w, this.h);
+    fill(255);
+    textSize(TEXT_SIZE);
+    text(this.label, this.xpos, this.ypos+TEXT_SIZE);
+  }
+  
+  int getEvent(int mX, int mY) {
+    if (mX > this.xpos && mX < this.xpos+WIDGET_LENGTH && mY > this.ypos && mY < this.ypos+WIDGET_HEIGHT) {
+      return event;
+    }
+    return EVENT_NULL;
+  }
+}

@@ -1,0 +1,24 @@
+import javax.swing.JOptionPane;
+import java.util.*;
+
+public class matrixCalculator {
+
+	public static void main(String[] args) {
+		
+		String input = JOptionPane.showInputDialog("Input the 3x3 matrix's numbers separated by spaces");
+		Scanner scanner = new Scanner(input);
+		scanner.useDelimiter(" ");
+		int a = scanner.nextInt();
+		int b = scanner.nextInt();
+		int c = scanner.nextInt();
+		int d = scanner.nextInt();
+		int e = scanner.nextInt();
+		int f = scanner.nextInt();
+		int g = scanner.nextInt();
+		int h = scanner.nextInt();
+		int i = scanner.nextInt();
+		scanner.close();
+		
+	}
+
+}

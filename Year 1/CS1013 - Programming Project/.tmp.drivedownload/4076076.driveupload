@@ -1,0 +1,20 @@
+class BarGraph{
+  
+  ArrayList <Integer> comments = new ArrayList();
+  int numberOfStories, numberOfComments;
+  String user;
+  
+  BarGraph(int numberOfStories, int numberOfComments, String username){
+   this.numberOfStories = numberOfStories;
+   this.numberOfComments = numberOfComments;
+   this.user = username;
+  }
+  
+  void draw(){
+    background(255);
+    rect(50, 350, 100, (350 - this.numberOfStories)); 
+    fill(255, 0, 0);
+    rect(200, 350, 100, (350 - this.numberOfComments));
+    fill(0, 255, 0);
+  }
+}

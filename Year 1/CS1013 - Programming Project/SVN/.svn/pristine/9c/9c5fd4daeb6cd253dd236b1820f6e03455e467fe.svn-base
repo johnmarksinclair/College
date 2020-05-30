@@ -1,0 +1,227 @@
+import java.util.*;
+ArrayList<Story> storyList;
+ArrayList<Comment> commentList;
+ArrayList<Story> matchingStories = new ArrayList<Story>();
+ArrayList<Comment> matchingComments = new ArrayList<Comment>();
+ArrayList<Story> popularStories = new ArrayList<Story>();
+ArrayList<Story> latestStories = new ArrayList<Story>();
+ArrayList<Integer> listOfResults = new ArrayList<Integer>();
+int numberOfMatchingStories, numberOfMatchingComments;
+String text, msg, username;
+PImage logo;
+PFont stdFont, widgetFont, titleFont;
+int currentScreen = 0;
+Textbox textbox;
+Screen mainScreen, userScreen, screenBarGraph, storyScreen;
+int currentQuery;
+boolean widgetClicked = false;
+boolean searchWidgetsOut = false;
+boolean sortWidgetsOut = false;
+boolean homepage = true;
+
+void settings() {
+  size(SCREENX, SCREENY);
+}
+
+void setup() {
+  loadStrings();
+  fill(0);
+  textbox = new Textbox(SCREENX-SEARCHBARX, MAIN_BANNER_Y-SEARCHBARY, SEARCHBARX, SEARCHBARY);
+  latestStories = storyList;
+  Collections.reverse(latestStories);
+  logo = loadImage("logo1.jpg");
+  BarGraph barGraph1;
+  //screens
+  mainScreen = new Screen();
+  userScreen = new Screen();
+  storyScreen = new Screen();
+  screenBarGraph = new Screen();
+  //fonts
+  widgetFont = loadFont("HiraginoSans-W4-16.vlw"); 
+  titleFont = loadFont("HelveticaNeue-Bold-50.vlw");
+  //widgets
+  widgetHomepage = new Widget(250, 0, 360, MAIN_BANNER_Y, "", color(0), widgetFont, HOME_BUTTON);
+  widgetStats = new Widget(0, MAIN_BANNER_Y, WIDGETX, WIDGETY, "STATS", color(255), widgetFont, QUERY_BUTTON);
+  widgetSearchBy = new Widget(SCREENX - SEARCHBARX - WIDGETX, MAIN_BANNER_Y - WIDGETY, WIDGETX, WIDGETY, "SEARCH BY", color (255), widgetFont, SEARCH_BY_BUTTON);
+  widgetStory = new Widget(SCREENX - SEARCHBARX - WIDGETX, MAIN_BANNER_Y, WIDGETX, WIDGETY, "STORY", color(255), widgetFont, STORY_BUTTON);
+  widgetComment = new Widget(SCREENX - SEARCHBARX - WIDGETX, MAIN_BANNER_Y + 1*WIDGETY, WIDGETX, WIDGETY, "COMMENT", color(255), widgetFont, COMMENT_BUTTON);
+  widgetAuthor = new Widget(SCREENX - SEARCHBARX - WIDGETX, MAIN_BANNER_Y + 2*WIDGETY, WIDGETX, WIDGETY, "AUTHOR", color(255), widgetFont, AUTHOR_BUTTON);
+  widgetSortBy = new Widget(WIDGETX, MAIN_BANNER_Y, WIDGETX, WIDGETY, "SORT BY", color(255), widgetFont, SORT_BY_BUTTON);
+  widgetLatest = new Widget(WIDGETX*2, MAIN_BANNER_Y, WIDGETX, WIDGETY, "LATEST", color(255), widgetFont, LATEST_BUTTON);
+  widgetMostPopular = new Widget(WIDGETX*3, MAIN_BANNER_Y, WIDGETX, WIDGETY, "POPULAR", color(255), widgetFont, MOST_POPULAR_BUTTON);
+  widgetBack = new Widget(20, 500, 100, 40, "Back", color(0, 150, 255), widgetFont, BACK_BUTTON);
+  //widgetOldToNew
+  //widegetNewToOld
+  barGraph1 = new BarGraph(listOfResults);
+  //adding widgets to screen
+  mainScreen.addWidget(widgetStats);
+  mainScreen.addWidget(widgetSearchBy);
+  mainScreen.addWidget(widgetSortBy);
+  mainScreen.addWidget(widgetHomepage);
+  screenBarGraph.addBarGraph(barGraph1);
+  screenBarGraph.addWidget(widgetBack);
+}
+
+void draw() {
+  if (currentScreen == 0) {
+    background(255);
+    fill(0);
+    rect(0, 0, SCREENX, MAIN_BANNER_Y);
+    stroke(125);
+    line(0, MAIN_BANNER_Y + SUB_BANNER_Y, SCREENX, MAIN_BANNER_Y + SUB_BANNER_Y);
+    image(logo, 6, 6);
+    textFont(widgetFont);
+    if (homepage) {
+      printHomepageStories();
+    } else {
+      switch(currentQuery) {
+      case USER_QUERY:
+        printMatchingStories();
+        //printMatchingComments();
+        break;
+      case STORY_QUERY:
+        printMatchingStories();
+        break;
+      case COMMENT_QUERY:
+        break;
+      case TIME_QUERY:
+        break;
+      }
+    }
+    textbox.draw();
+    mainScreen.draw();
+    textFont(titleFont);
+    textSize(HEADING_SIZE);
+    fill(255);
+    text("Hacker News", 300, MAIN_BANNER_Y-20);
+  } else if (currentScreen == 1) {
+    background(100);
+    screenBarGraph.draw();
+  }
+}
+
+void mousePressed() {
+  textbox.clickedOn(mouseX, mouseY);
+  int event;
+  if (currentScreen == 0) {
+    event = mainScreen.mousePressed();
+  } else {
+    event = screenBarGraph.mousePressed();
+  }
+  if (event != SEARCH_BY_BUTTON) {
+    mainScreen.removeWidget(widgetStory);
+    mainScreen.removeWidget(widgetComment);
+    mainScreen.removeWidget(widgetAuthor);
+    searchWidgetsOut = false;
+  }
+  if (event != SORT_BY_BUTTON) {
+    mainScreen.removeWidget(widgetMostPopular);
+    mainScreen.removeWidget(widgetLatest);
+    sortWidgetsOut = false;
+  }
+  switch(event) {
+  case QUERY_BUTTON: 
+    currentScreen = 1;
+    break;
+  case BACK_BUTTON:
+    currentScreen = 0;
+    break;
+  case SEARCH_BY_BUTTON:
+    if (!searchWidgetsOut) {
+      mainScreen.addWidget(widgetStory);
+      mainScreen.addWidget(widgetComment);
+      mainScreen.addWidget(widgetAuthor);
+      searchWidgetsOut = true;
+    } else {
+      mainScreen.removeWidget(widgetStory);
+      mainScreen.removeWidget(widgetComment);
+      mainScreen.removeWidget(widgetAuthor);
+      searchWidgetsOut = false;
+    }
+    break;
+  case STORY_BUTTON:
+    setQuery(STORY_QUERY);
+    mainScreen.removeWidget(widgetStory);
+    mainScreen.removeWidget(widgetComment);
+    mainScreen.removeWidget(widgetAuthor);
+    searchWidgetsOut = false;
+    break;
+  case COMMENT_BUTTON:
+    setQuery(COMMENT_QUERY);
+    mainScreen.removeWidget(widgetStory);
+    mainScreen.removeWidget(widgetComment);
+    mainScreen.removeWidget(widgetAuthor);
+    searchWidgetsOut = false;
+    break;
+  case AUTHOR_BUTTON:
+    setQuery(USER_QUERY);
+    mainScreen.removeWidget(widgetAuthor);
+    break;
+  case SORT_BY_BUTTON:
+    if (!sortWidgetsOut) {
+      mainScreen.addWidget(widgetMostPopular);
+      mainScreen.addWidget(widgetLatest);
+      sortWidgetsOut = true;
+    } else {
+      mainScreen.removeWidget(widgetMostPopular);
+      mainScreen.removeWidget(widgetLatest);
+      sortWidgetsOut = false;
+    }
+    break;
+  case MOST_POPULAR_BUTTON:
+    println("sorting by popular");
+    mainScreen.removeWidget(widgetMostPopular);
+    mainScreen.removeWidget(widgetLatest);
+    sortWidgetsOut = false;
+    break;
+  case LATEST_BUTTON:
+    println("sorting by latest");
+    mainScreen.removeWidget(widgetMostPopular);
+    mainScreen.removeWidget(widgetLatest);
+    sortWidgetsOut = false;
+    break;
+  case HOME_BUTTON:
+    homepage = true;
+    break;
+  }
+}
+
+void keyPressed() {
+  if (textbox.keypressed(key, keyCode)) {
+    query();
+    homepage = false;
+  }
+}
+
+void setQuery(int current) {
+  currentQuery = current;
+}
+
+void query() {
+  switch (currentQuery) {
+  case USER_QUERY:
+    String username = textbox.text; //tests: ["pg": first json object author (72, 368)], ["BrandonM": last json object author (2, 62)]
+    searchUsername(username);
+    listOfResults.add(numberOfMatchingStories);
+    listOfResults.add(numberOfMatchingComments);
+    //println("No. of matching stories: " + numberOfMatchingStories);
+    //println("No. of matching comments: " + numberOfMatchingComments);
+    break;
+  case STORY_QUERY:
+    String text = textbox.text;
+    matchingStories = searchStoryTitles(text);
+    listOfResults.add(matchingStories.size());
+    //println("No. of matching stories: " + matchingStories.size());
+    break;
+  case COMMENT_QUERY:
+    String input = textbox.text;
+    matchingComments = searchComments(input);
+    listOfResults.add(matchingComments.size());
+    //println("No. of matching comments: " + matchingComments.size());
+    break;
+  case TIME_QUERY:
+    String time = textbox.text;
+    searchByTime(time);
+    break;
+  }
+}
