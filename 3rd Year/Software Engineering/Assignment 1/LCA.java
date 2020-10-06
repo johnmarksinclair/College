@@ -20,19 +20,20 @@ public class LCA {
         System.out.println("Should be 'b' - " + getLCA(d,f));
         System.out.println("Should be 'e' - " + getLCA(f,g));
         System.out.println("Should be 'a' - " + getLCA(g, c));
+        System.out.println("Should be '0' - " + getLCA(a, b));
+
     }
 
     public static char getLCA(Node one, Node two) {
         if (one.hasParent() && two.hasParent()) {
             if (one.getParentKey() == two.getParentKey()) {
                 return one.getParentKey();
-            } else if (one.getTeir()<two.getTeir()) {
+            } else if (one.getTeir() < two.getTeir()) {
                 return getLCA(one, two.getParent());
             } else {
                 return getLCA(two, one.getParent());
             }
-        } else {
-            return '0';
         }
+        return '0';
     }
 }
