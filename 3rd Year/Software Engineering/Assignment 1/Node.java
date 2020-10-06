@@ -7,9 +7,23 @@ public class Node {
         this.parent = parent;
     }
 
+    public char getKey() {
+        return this.key;
+    }
+
     public char getParentKey() {
         return parent.key;
     }
 
-    
+    public Node getParent() {
+        return parent;
+    }
+
+    public boolean hasParent() {
+        if(parent!=null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

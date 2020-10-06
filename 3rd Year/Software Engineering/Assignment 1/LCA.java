@@ -1,12 +1,11 @@
-//import java.util.*;
 /*
     a
    / \
   b   c
- /\
-d e
  / \
-f   g
+d   e
+   / \
+  f   g
 */
 
 public class LCA {
@@ -20,10 +19,18 @@ public class LCA {
         Node g = new Node('g', e);
         System.out.println("Should be 'b' - " + getLCA(d,f));
         System.out.println("Should be 'e' - " + getLCA(f,g));
+        System.out.println("Should be 'a' - " + getLCA(g, c));
     }
 
     public static char getLCA(Node one, Node two) {
-        
-        return 'z';
+        if (one.hasParent() && two.hasParent()) {
+            if (one.getParentKey() == two.getParentKey()) {
+                return one.getParentKey();
+            } else {
+                return getLCA(one, two.getParent());
+            }
+        } else {
+            return '0';
+        }
     }
 }
