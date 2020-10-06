@@ -2,8 +2,8 @@
     a
    / \
   b   c
- / \
-d   e
+ / \   \
+d   e   h
    / \
   f   g
 */
@@ -17,11 +17,12 @@ public class LCA {
         Node e = new Node('e', b);
         Node f = new Node('f', e);
         Node g = new Node('g', e);
+        Node h = new Node('h', c);
         System.out.println("Should be 'b' - " + getLCA(d,f));
         System.out.println("Should be 'e' - " + getLCA(f,g));
         System.out.println("Should be 'a' - " + getLCA(g,c));
+        System.out.println("Should be 'a' - " + getLCA(d,h));
         System.out.println("Should be '0' - " + getLCA(a,b));
-
     }
 
     public static char getLCA(Node one, Node two) {
