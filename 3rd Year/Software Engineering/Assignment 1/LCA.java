@@ -19,8 +19,8 @@ public class LCA {
         Node g = new Node('g', e);
         System.out.println("Should be 'b' - " + getLCA(d,f));
         System.out.println("Should be 'e' - " + getLCA(f,g));
-        System.out.println("Should be 'a' - " + getLCA(g, c));
-        System.out.println("Should be '0' - " + getLCA(a, b));
+        System.out.println("Should be 'a' - " + getLCA(g,c));
+        System.out.println("Should be '0' - " + getLCA(a,b));
 
     }
 
