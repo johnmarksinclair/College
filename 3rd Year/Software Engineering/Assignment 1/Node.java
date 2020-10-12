@@ -7,7 +7,7 @@ public class Node {
         this.key = key;
         this.parent = parent;
         if (this.parent!=null) {
-            this.tier = parent.getTeir()+1;
+            this.tier = parent.getTier()+1;
         } else {
             this.tier = 0;
         }
@@ -33,7 +33,7 @@ public class Node {
         }
     }
 
-    public int getTeir() {
+    public int getTier() {
         return this.tier;
     }
 }

@@ -29,7 +29,7 @@ public class LCA {
         if (one.hasParent() && two.hasParent()) {
             if (one.getParentKey() == two.getParentKey()) {
                 return one.getParentKey();
-            } else if (one.getTeir() < two.getTeir()) {
+            } else if (one.getTier() < two.getTier()) {
                 return getLCA(one, two.getParent());
             } else {
                 return getLCA(two, one.getParent());
