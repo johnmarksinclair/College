@@ -13,10 +13,6 @@ public class Node {
         }
     }
 
-    public char getKey() {
-        return this.key;
-    }
-
     public char getParentKey() {
         return parent.key;
     }
@@ -26,11 +22,7 @@ public class Node {
     }
 
     public boolean hasParent() {
-        if(parent!=null) {
-            return true;
-        } else {
-            return false;
-        }
+        return (parent==null ? false : true);
     }
 
     public int getTier() {
