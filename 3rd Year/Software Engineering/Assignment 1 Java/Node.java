@@ -1,4 +1,5 @@
 public class Node {
+	
     private char key;
     private Node parent;
     private int tier;
