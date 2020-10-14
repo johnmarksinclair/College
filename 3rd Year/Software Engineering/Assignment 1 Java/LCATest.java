@@ -4,6 +4,17 @@ import org.junit.jupiter.api.Test;
 
 class LCATest {
 
+	/*
+	    a
+	   / \
+	  b   c
+	 / \   \
+	d   e   h
+	   / \
+	  f   g
+	
+	*/
+
 	@Test
 	void testLCA() {
 		Node a = new Node('a', null);

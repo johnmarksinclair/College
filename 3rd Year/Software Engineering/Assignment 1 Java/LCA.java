@@ -1,13 +1,3 @@
-/*
-    a
-   / \
-  b   c
- / \   \
-d   e   h
-   / \
-  f   g
-*/
-
 public class LCA {
 
     public static char getLCA(Node one, Node two) {
