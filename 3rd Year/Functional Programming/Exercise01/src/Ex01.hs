@@ -49,8 +49,8 @@ commonLen :: Eq a => [a] -> [a] -> Int
 commonLen [] _ = 0 --check if a is null
 commonLen _ [] = 0 --check if b is null
 commonLen xs ys = 
-       if head xs == head ys then 1 + commonLen (tail xs) (tail ys)
-       else commonLen (tail xs) (tail ys)
+       if head xs == head ys then 1 + commonLen (tail xs) (tail ys) 
+       else commonLen (tail xs) (tail ys) --tail = every element after the head
 
 {- Part 4
 
@@ -70,4 +70,5 @@ HINT: Don't worry about code efficiency
 
 -}
 runs :: Eq a => [a] -> [[a]]
-runs xs = undefined
+runs [] = []
+runs (x:xs) = (x:(takeWhile (==x) xs)): runs (dropWhile (==x) xs)
