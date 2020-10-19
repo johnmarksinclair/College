@@ -46,11 +46,10 @@ and reports the length of the prefix they have in common.
 
 -}
 commonLen :: Eq a => [a] -> [a] -> Int
-commonLen [] _ = 0
+commonLen [] _ = 0 --check if a is null
+commonLen _ [] = 0 --check if b is null
 commonLen xs ys = 
-       if length xs == 0 then 0
-       else if length ys == 0 then 0
-       else if head xs == head ys then 1 + commonLen (tail xs) (tail ys)
+       if head xs == head ys then 1 + commonLen (tail xs) (tail ys)
        else commonLen (tail xs) (tail ys)
 
 {- Part 4
