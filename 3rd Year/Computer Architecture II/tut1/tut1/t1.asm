@@ -25,7 +25,6 @@ poly:	;; prologue
 		pop ebp
 		ret
 
-
 pow:	;; prologue
 		push ebp ;; pushing base pointer onto the stack
 		mov ebp, esp ;; establishing the stack frame
