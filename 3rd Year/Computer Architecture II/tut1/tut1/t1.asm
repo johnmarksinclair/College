@@ -49,28 +49,26 @@ pow2:	mov	eax, edx
 public factorial
 
 factorial:	;; prologue
-			push ebp ;; pushing base pointer onto the stack
-			mov ebp, esp ;; establishing the stack frame
+			push	ebp				; pushing base pointer onto the stack
+			mov		ebp, esp		; establishing the stack frame
 
-			cmp ecx, 999999
-			jg	fac1
-			cmp ecx, 0
-			jg	fac2
-fac1:		xor	ecx, ecx		; clear program counter
-			mov	edx, [ebp+8]	; param (N) is now in edx
-			xor	eax, eax		; clear answer reg
-			mov	eax, 1
+			mov		edx, [ebp+8]	; param (N) is now in edx
+			xor		eax, eax		; clear answer reg
 
-fac2:		cmp	edx, 0			; N == 0 ?
-			je	fac3			; jump to end if N==0
-			imul	eax, edx	; ret reg * N
-			dec	edx				; N = N-1
-			inc	ecx				; inc counter
-			call	factorial	; call factorial(N-1)
+			cmp		edx, 0			; N == 0 ?
+			je		fac1			; jump to end if N==0
+			
+			dec		edx				; N = N-1
+			push	edx
+			call	factorial		; call factorial(N-1)
+			mov		edx, [ebp+8]	; param (N) is now in edx
+			imul	eax, edx		; ret reg * N
+			jmp		fac2
 
-fac3:		;; epilogue
-			mov esp, ebp ;; move value of base pointer back to the stack pointer
-			pop ebp
+fac1:		mov		eax, 1
+fac2:		;; epilogue
+			mov		esp, ebp		; move value of base pointer back to the stack pointer
+			pop		ebp
 			ret
 
 public multiple_k_asm
@@ -78,6 +76,7 @@ public multiple_k_asm
 multiple_k_asm: ;; prologue
 				push ebp ;; pushing base pointer onto the stack
 				mov ebp, esp ;; establishing the stack frame
+
 
 
 				;; epilogue
