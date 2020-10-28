@@ -73,13 +73,49 @@ fac2:		;; epilogue
 public multiple_k_asm
 
 multiple_k_asm: ;; prologue
-				push ebp ;; pushing base pointer onto the stack
-				mov ebp, esp ;; establishing the stack frame
+				push ebp			;; pushing base pointer onto the stack
+				mov ebp, esp		;; establishing the stack frame
+				push ebx			;; preserve ebx
+				push edi			;; preserve edi
+				
+				mov edi, [ebp+16]	;; edi = pointer to the array
+				
+				xor cx, cx			;; clear the counter (cx)
+				mov	cx, [ebp+8]		;; store N in cx
+				
+
+mulk2:			cmp cx, -1			;; for loop N--
+				je	mulk1
+				mov	bx, [ebp+12]	;; ebx = k
+				mov ax, cx
+				add ax, 1
+				xor	dx, dx			;; clear modulo ans
+				div bx
+				cmp	dx, 0
+				jne	elsecase
+				xor edx, edx
+				mov	dx, cx
+				imul	dx, 2
+				add	edx, edi
+				mov ax, 1
+				mov	[edx], ax		;;make array[i] = 1
+				jmp skipelse
+
+elsecase:		xor edx, edx
+				mov	dx, cx
+				imul	edx, 2
+				add	edx, edi
+				mov	ax, 0
+				mov	[edx], ax		;; make array[i] = 0
 
 
+skipelse:		dec	cx				;; decrement counter
+				jmp	mulk2			;; loop
 
-				;; epilogue
-				mov esp, ebp ;; move value of base pointer back to the stack pointer
+mulk1:			;; epilogue
+				pop edi				;; restore edi
+				pop ebx				;; restore ebx
+				mov esp, ebp		;; move value of base pointer back to the stack pointer
 				pop ebp
 				ret
 
