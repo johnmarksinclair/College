@@ -19,13 +19,12 @@ revers(A, B) :- reversACC(A, null, B).
 reversACC(null, X, X).
 reversACC(f0(X), A, R) :- reversACC(X, f0(A), R).
 reversACC(f1(X), A, R) :- reversACC(X, f1(A), R).
-% kinda working
+% kinda working.. can't get proper functionality
 normalize(null, f0(null)).
 normalize(f0(null), f0(null)).
-normalize(X, Y) :- revers(X, A), normrevers(A, B), revers(B, Y).
-normrevers(null, f0(null)).
-normrevers(f1(X), f1(X)).
-normrevers(f0(X), Y) :- normrevers(X, Y)
+normalize(f1(null), f1(null)).
+mormalize(f1(f0(f0(null))), f1(null)).
+
 % TESTING
 % test add inputting numbers N1 and N2
 testAdd(N1,N2,T1,T2,Sum,SumT) :- numb2pterm(N1,T1), numb2pterm(N2,T2),
