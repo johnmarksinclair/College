@@ -2,7 +2,7 @@
 incr(null, f1(null)).
 incr(f0(X), f1(X)).
 incr(f1(X), f0(Y)) :- incr(X, Y).
-% can't to work
+% can't get to work
 legal(f0(null)).
 legal(X) :- incr(Y, X), legal(Y).
 % not working
