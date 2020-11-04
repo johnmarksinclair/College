@@ -1,5 +1,5 @@
 public class Node {
-	
+
     private char key;
     private Node parent;
     private int tier;
@@ -7,8 +7,8 @@ public class Node {
     Node(char key, Node parent) {
         this.key = key;
         this.parent = parent;
-        if (this.parent!=null) {
-            this.tier = parent.getTier()+1;
+        if (this.parent != null) {
+            this.tier = parent.getTier() + 1;
         } else {
             this.tier = 0;
         }
@@ -23,7 +23,7 @@ public class Node {
     }
 
     public boolean hasParent() {
-        return (parent==null ? false : true);
+        return (parent == null ? false : true);
     }
 
     public int getTier() {
