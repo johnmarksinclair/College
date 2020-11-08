@@ -1,6 +1,7 @@
 public class LCA {
 
     public static char getLCA(Node one, Node two) {
+
         if (one.hasParent() && two.hasParent()) {
             if (one.getParentKey() == two.getParentKey()) {
                 return one.getParentKey();
@@ -10,6 +11,7 @@ public class LCA {
                 return getLCA(two, one.getParent());
             }
         }
+
         return '0';
     }
 }
