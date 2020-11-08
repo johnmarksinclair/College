@@ -1,0 +1,24 @@
+﻿  Assembling sample.asm...
+sample.asm(26): error A2006: undefined symbol : rax
+sample.asm(29): error A2006: undefined symbol : rax
+sample.asm(30): error A2006: undefined symbol : rdx
+sample.asm(44): error A2006: undefined symbol : rax
+sample.asm(45): error A2006: undefined symbol : rsp
+sample.asm(46): error A2006: undefined symbol : rsp
+sample.asm(47): error A2006: undefined symbol : rsp
+sample.asm(50): error A2006: undefined symbol : rsp
+sample.asm(51): error A2006: undefined symbol : r9
+sample.asm(52): error A2006: undefined symbol : r8
+sample.asm(53): error A2006: undefined symbol : rdx
+sample.asm(54): error A2006: undefined symbol : rcx
+sample.asm(59): error A2006: undefined symbol : rax
+sample.asm(60): error A2006: undefined symbol : rax
+sample.asm(61): error A2006: undefined symbol : rsp
+sample.asm(62): error A2006: undefined symbol : rsp
+sample.asm(63): error A2006: undefined symbol : r9
+sample.asm(64): error A2006: undefined symbol : r8
+sample.asm(65): error A2006: undefined symbol : rdx
+sample.asm(66): error A2006: undefined symbol : rcx
+sample.asm(69): error A2006: undefined symbol : rsp
+sample.asm(72): error A2006: undefined symbol : rax
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations\masm.targets(70,5): error MSB3721: The command "ml.exe /c /nologo /Zi /Fo"Debug\sample.obj" /W3 /errorReport:prompt  /Tasample.asm" exited with code 1.
