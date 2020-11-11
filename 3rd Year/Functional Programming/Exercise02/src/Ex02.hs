@@ -117,5 +117,6 @@ law3 (Sub x (Add y z)) = Just (Sub (Sub x y) z)
 law3 _ = Nothing
 
 law4 :: Expr -> Maybe Expr
-law4 (Mul (Add a b) (Sub c d)) = Just (Sub (Mul a c) (Mul b d))
+law4 (Mul (Add a b) (Sub c d))  |  a == c && b == d = Just (Sub (Mul a c) (Mul b d))
+                                | otherwise = Nothing
 law4 _ = Nothing
