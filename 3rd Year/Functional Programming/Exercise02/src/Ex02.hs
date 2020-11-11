@@ -59,13 +59,13 @@ v42 = Val 42 ; j42 = Just v42
 eval :: EDict -> Expr -> Either String Double
 eval d e = error "eval NYI"
 
--- Part 1 : Expression Laws -- (15 test marks, worth 15 Exercise Marks) --------
+-- Part 2 : Expression Laws -- (15 test marks, worth 15 Exercise Marks) --------
 
 {-
 
 There are many, many laws of algebra that apply to our expressions, e.g.,
 
-  x + y            =  y + z         Law 1
+  x + y            =  y + x         Law 1
   x + (y + z)      =  (x + y) + z   Law 2
   x - (y + z)      =  (x - y) - z   Law 3
   (x + y)*(x - y)  =  x*x - y*y     Law 4
