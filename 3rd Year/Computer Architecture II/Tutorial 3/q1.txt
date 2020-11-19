@@ -1,0 +1,23 @@
+
+
+        add r0, #4, r2          ; 0 + 4 = r2 = inp_int
+
+max     add r0, r26, r1         ; r1 = first param
+        sub r27, r1, r0, {c}    ; compare b (second param) with v
+        jle max1
+        add r0, r27, r1
+max1    sub r28, r1, r0, {c}    ; compare c (3rd param) with v
+        jle max2
+        add r0, r28, r1
+max2    ret
+
+
+max5    add r0, r2, r10     ; inp_int into first param r10
+        add r0, r26, r11    ; i into r11 ready for max call
+        add r0, r27, r12    ; j
+        callr max
+        add r0, r1, r10     ; put answer into r10 ready for next call 
+        add r0, r28, r11    ; k into r11
+        add r0, r29, r12    ; l into r12
+        callr max
+        ret

@@ -1,0 +1,31 @@
+; assumptions:
+; mod - takes two params in r10 and r11, returning r10%r11 in r1 
+; div - takes two params r10 and r11, returns r10/r11 in r1
+
+fun     sub r27, r0, r0, {c}
+        jne fun1
+        add r0, r0, r1
+        ret
+
+fun1    add r0, r27, r10
+        add r0, #2, r11
+        callr mod
+        sub r1, r0, r0, {c}
+        jne fun2
+        
+        ;add r0, r27, r10
+        ;add r0, #2, r11
+        callr div            ; b/2 now in r1
+        add r26, r26, r10   ; a+a into r10
+        add r0, r1, r11     ; b/2 in r11
+        callr fun
+        ret
+
+fun2    ;add r0, r27, r10
+        ;add r0, #2, r11
+        callr div            ; b/2 now in r1
+        add r26, r26, r10   ; a+a into r10
+        add r0, r1, r11     ; b/2 in r11
+        callr fun
+        add r1, r26, r1
+        ret
