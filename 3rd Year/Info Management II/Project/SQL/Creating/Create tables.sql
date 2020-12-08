@@ -4,8 +4,8 @@ CREATE TABLE Province
 (
   Province_ID INT NOT NULL AUTO_INCREMENT,
 
-  Name VARCHAR(20) NOT NULL,
-  Phone_Number INT NOT NULL,
+  Name VARCHAR(30) NOT NULL,
+  Phone_Number VARCHAR(30) NOT NULL,
   Email VARCHAR(50) NOT NULL,
 
   PRIMARY KEY (Province_ID)
@@ -17,8 +17,13 @@ CREATE TABLE Golf_Club
 
   Name VARCHAR(50) NOT NULL,
   Address VARCHAR(100) NOT NULL,
-  Phone_Number INT NOT NULL,
+  Phone_Number VARCHAR(30) NOT NULL,
   Province_ID INT NOT NULL,
+
+  constraint no_national_clubs
+  check (
+    (Province_ID != 1)
+  ),
 
   PRIMARY KEY (Club_ID),
   FOREIGN KEY (Province_ID) REFERENCES Province(Province_ID)
@@ -86,9 +91,11 @@ CREATE TABLE Round
   Gross_Score INT NOT NULL,
   Net_Score INT NOT NULL,
   Date DATE NOT NULL,
+  Club_ID INT NOT NULL,
   Player_ID INT NOT NULL,
 
   PRIMARY KEY (Round_ID),
+  FOREIGN KEY (Club_ID) REFERENCES Golf_Club(Club_ID),
   FOREIGN KEY (Player_ID) REFERENCES Player(Player_ID)
 );
 
