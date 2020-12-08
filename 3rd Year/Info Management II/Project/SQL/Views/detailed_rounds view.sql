@@ -5,7 +5,7 @@ drop view if exists detailed_rounds;
 create view detailed_rounds as
 select 
     Province.Name as `Province`, Golf_Club.Name as `Club_Name`, Round.Date,
-    Player.First_Name, Player.Last_Name, 
+    Player.Player_ID, Player.First_Name, Player.Last_Name, 
     Round.Gross_Score, Round.Net_Score
     
 from Player

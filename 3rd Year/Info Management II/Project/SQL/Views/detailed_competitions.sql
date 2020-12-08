@@ -5,7 +5,7 @@ drop view if exists detailed_competitions;
 create view detailed_competitions as
 select 
     Province.Name as `Province`, Golf_Club.Name as `Club_Name`, 
-    Competition.Name, Competition.Date
+    Competition.Name, Competition.Date, Golf_Club.Phone_Number
 
 from Province
 inner join Golf_Club 

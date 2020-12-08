@@ -5,7 +5,7 @@ drop view if exists detailed_players;
 create view detailed_players as
 select 
     Province.Name as `Province`, Golf_Club.Name as `Club_Name`,
-    Player.First_Name, Player.Last_Name, Player.DOB, Player.OWGR, Player.Handicap
+    Player.Player_ID, Player.First_Name, Player.Last_Name, Player.DOB, Player.OWGR, Player.Handicap
 
 from Province
 inner join Golf_Club 
