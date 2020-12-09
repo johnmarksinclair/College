@@ -101,12 +101,9 @@ CREATE TABLE Round
 
 CREATE TABLE Competition_Entry
 (
-  Entry_ID INT NOT NULL AUTO_INCREMENT,
-
   Player_ID INT NOT NULL,
   Competition_ID INT NOT NULL,
   
-  PRIMARY KEY (Entry_ID),
   FOREIGN KEY (Player_ID) REFERENCES Player(Player_ID),
   FOREIGN KEY (Competition_ID) REFERENCES Competition(Competition_ID)
 );

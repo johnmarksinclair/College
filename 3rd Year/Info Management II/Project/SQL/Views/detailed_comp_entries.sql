@@ -4,7 +4,7 @@ drop view if exists detailed_comp_entries;
 
 create view detailed_comp_entries as
 select
-    Competition_Entry.Entry_ID, Player.Player_ID, Player.First_Name, Player.Last_Name, 
+    Player.Player_ID, Player.First_Name, Player.Last_Name, 
     Competition.Name as `Competition`, Golf_Club.Name as `Club_Name`
 
 from Competition_Entry
