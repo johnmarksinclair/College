@@ -17,7 +17,8 @@ inner join Competition
 inner join Player
     on Competition_Entry.Player_ID = Player.Player_ID 
 inner join Golf_Club 
-    on Competition.Club_ID = Golf_Club.Club_ID;
+    on Competition.Club_ID = Golf_Club.Club_ID
+order by Competition_Entry.Timestamp DESC;
 
 create view detailed_competitions as
 select 
