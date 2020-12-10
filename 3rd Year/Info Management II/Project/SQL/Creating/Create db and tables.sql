@@ -1,6 +1,16 @@
+drop database if exists GUI;
+
 CREATE DATABASE GUI;
 
 USE GUI;
+
+drop table if exists Province;
+drop table if exists Golf_Club;
+drop table if exists Employee;
+drop table if exists Competition;
+drop table if exists Player;
+drop table if exists Round;
+drop table if exists Competition_Entry;
 
 CREATE TABLE Province
 (
@@ -105,7 +115,16 @@ CREATE TABLE Competition_Entry
 (
   Player_ID INT NOT NULL,
   Competition_ID INT NOT NULL,
+  Timestamp DATETIME DEFAULT now(),
   
   FOREIGN KEY (Player_ID) REFERENCES Player(Player_ID),
   FOREIGN KEY (Competition_ID) REFERENCES Competition(Competition_ID)
 );
+
+select * from competition;
+select * from competition_entry;
+select * from employee;
+select * from golf_club;
+select * from player;
+select * from province;
+select * from round; 

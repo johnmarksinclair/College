@@ -4,10 +4,11 @@ drop view if exists detailed_comp_entries;
 drop view if exists detailed_competitions;
 drop view if exists detailed_players;
 drop view if exists detailed_rounds;
-drop view if exists provinces_and_clubs;
+drop view if exists club_directory;
 
 create view detailed_comp_entries as
 select
+	Competition_Entry.Timestamp as `Entry_Made`,
     Player.Player_ID, Player.First_Name, Player.Last_Name, 
     Competition.Name as `Competition`, Golf_Club.Name as `Club_Name`
 from Competition_Entry
@@ -26,7 +27,8 @@ from Province
 inner join Golf_Club 
     on Province.Province_ID = Golf_Club.Province_ID
 inner join Competition
-    on Golf_Club.Club_ID = Competition.Club_ID;
+    on Golf_Club.Club_ID = Competition.Club_ID
+order by Province.Province_ID, Golf_Club.Club_ID, Competition.Date ASC;
 
 create view detailed_players as
 select 
@@ -36,7 +38,8 @@ from Province
 inner join Golf_Club 
     on Province.Province_ID = Golf_Club.Province_ID
 inner join Player
-    on Golf_Club.Club_ID = Player.Club_ID;
+    on Golf_Club.Club_ID = Player.Club_ID
+order by Province.Name, Golf_Club.Name, Player.Handicap ASC;
 
 create view detailed_rounds as
 select 
@@ -49,17 +52,19 @@ inner join Round
 inner join Golf_Club
     on Round.Club_ID = Golf_Club.Club_ID
 inner join Province
-    on Province.Province_ID = Golf_Club.Province_ID;
+    on Province.Province_ID = Golf_Club.Province_ID
+order by Province.Name, Golf_Club.Name, Player.Player_ID ASC, Round.Date DESC;
 
-create view provinces_and_clubs as
+create view club_directory as
 select 
     Province.Name as `Province`, Golf_Club.Name as `Club_Name`, Golf_Club.Phone_Number
 from Province
 inner join Golf_Club 
-    on Province.Province_ID = Golf_Club.Province_ID;
+    on Province.Province_ID = Golf_Club.Province_ID
+order by Province.Name, Golf_Club.Name;
 
 select * from detailed_comp_entries;
 select * from detailed_competitions;
 select * from detailed_players;
 select * from detailed_rounds;
-select * from provinces_and_clubs;
+select * from club_directory;
