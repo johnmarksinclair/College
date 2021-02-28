@@ -17,7 +17,7 @@ less-than([_,[Node1|_],Cost1],[_,[Node2|_],Cost2]) :-
     F2 is Cost2+Hvalue2,
     F1 =< F2.
 
-% implementatino of astar algo
+% implementatino of a* algo
 
 astar(Node,Path,Cost,KB) :- search([[Node,[],0]],PathReverse,Cost,KB), reverse(Path, PathReverse).
 
