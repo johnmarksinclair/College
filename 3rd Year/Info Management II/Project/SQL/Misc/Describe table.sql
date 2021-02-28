@@ -1,2 +1,0 @@
-use GUI;
-describe Employee;

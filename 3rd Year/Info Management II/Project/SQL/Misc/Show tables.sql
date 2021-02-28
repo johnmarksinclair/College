@@ -1,2 +1,0 @@
-use GUI;
-show Tables;

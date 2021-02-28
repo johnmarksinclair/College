@@ -1,0 +1,7 @@
+flex file.l
+
+gcc lex.yy.c -ll
+
+./a.out
+
+to read from a file - yyin=fopen("abc.txt", "r");

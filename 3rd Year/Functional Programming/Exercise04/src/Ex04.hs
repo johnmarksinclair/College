@@ -31,13 +31,28 @@ data BinTree k d
 
 -- Implement:
 ins :: Ord k => k -> d -> BinTree k d -> BinTree k d
-ins _ _ _  = error "ins NYI"
+ins k d Empty  = Leaf k d
+ins k d (Leaf a b)
+  | k < a = Branch (Leaf k d) Empty a b
+  | k > a = Branch Empty (Leaf k d) a b
+  | k == a = Leaf k d
+ins k d (Branch l r a b)
+  | k < a = Branch (ins k d l) (r) a b
+  | k > a = Branch (l) (ins k d r) a b
+  | k == a = Branch l r k d
 
 -- Part 2 : Tree Lookup -------------------------------
 
 -- Implement:
 lkp :: (Monad m, Ord k) => BinTree k d -> k -> m d
-lkp _ _ = error "lkp NYI"
+lkp Empty x = fail "Empty"
+lkp (Leaf a b) x
+  | a == x = return(b)
+  | otherwise = fail "No Match"
+lkp (Branch l r a b) x
+  | a < x = lkp r x
+  | a > x = lkp l x
+  | a == x = return(b)
 
 -- Part 3 : Tail-Recursive Statistics
 
@@ -65,15 +80,21 @@ twobirdsonestone listsum sumofsquares len
 -}
 getLengthAndSums :: [Double] -> (Int,Double,Double)
 getLengthAndSums ds = getLASs init1 init2 init3 ds
-init1 = error "init1 not yet defined"
-init2 = error "init2 not yet defined"
-init3 = error "init3 not yet defined"
+init1 :: Int
+init1 = 0
+init2 :: Double
+init2 = 0
+init3 :: Double
+init3 = 0
 
 {-
-  Implement the following tail-recursive  helper function
+  Implement the following tail-recursive helper function
 -}
 getLASs :: Int -> Double -> Double -> [Double] -> (Int,Double,Double)
-getLASs _ _ _ _ = error "getLASs NYI"
+getLASs a b c [] = (a, b, c)
+getLASs a b c (l:ls) = (len + 1, sum + l, sq + (l*l))
+  where 
+    (len, sum, sq) = getLASs a b c ls
 
 -- Final Hint: how would you use a while loop to do this?
 --   (assuming that the [Double] was an array of double)

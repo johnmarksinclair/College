@@ -1,0 +1,66 @@
+use GUI;
+
+insert into Player (
+	First_Name,
+    Last_Name,
+    DOB,
+    OWGR,
+    Handicap,
+    Club_ID
+)
+values (
+    'John',
+    'Sinclair',
+    '1998-03-16',
+    NULL,
+    13.4,
+    1
+),
+(
+    'Marc',
+    'Boucher',
+    '1997-08-02',
+    1907,
+    -5.5,
+    1
+),
+(
+    'Gavin',
+    'Sinclair',
+    '2001-11-27',
+    NULL,
+    19.2,
+    1
+),
+(
+    'Cathal',
+    'MacCanna',
+    '2001-03-16',
+    NULL,
+    0.4,
+    1
+),
+(
+    'Eoin',
+    'Sullivan',
+    '2000-12-11',
+    NULL,
+    -4.1,
+    1
+),
+(
+    'David',
+    'Gahan',
+    '1997-01-23',
+    NULL,
+    22.0,
+    1
+),
+(
+    'Ronan',
+    'ONeill',
+    '1998-03-26',
+    NULL,
+    23.1,
+    2
+);
