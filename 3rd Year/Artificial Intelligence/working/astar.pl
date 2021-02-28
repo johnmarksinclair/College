@@ -21,7 +21,7 @@ astar(Node, Path, Cost, KB) :- search([[Node, [], 0]], ReversedPath, Cost, KB), 
 
 search([[Node, Path, Cost]|_], [Node|Path], Cost, _) :- goal(Node).
 search([[Node, CurrentPath, RollingCost]|Tail], Path, Cost, KB) :-
-    findall([X, [Node|CurrentPath], TotalCost], (arc(Node, X, ArcCost, KB), TotalCost is ArcCost + RollingCost), Children),
+    findall([X, [Node|CurrentPath], TotalCost], (arc(Node, X, CostOfArc, KB), TotalCost is CostOfArc + RollingCost), Children),
     add2frontier(Tail, Children, Frontier),
     insertSort(Frontier, SortedFrontier),
     search(SortedFrontier, Path, Cost, KB).
@@ -35,3 +35,13 @@ insertSort([Head|Tail], Sorted) :- insertSort(Tail, Other), insert(Head, Other, 
 insert(X, [], [X]) :-!.
 insert(X, [X1|L1], [X, X1|L1]):- less-than(X, X1), !.
 insert(X, [X1|L1], [X1|L]):- insert(X, L1, L).
+
+% test queries
+% astar([q],Path,Cost,[[q,a],[q,b,c],[a,d,e],[a,c,e,f],[b,c],[c,e,f],[e],[f,e]]).
+% [[q], [a], [c, e, f], [e, f, e, f], [f, e, f], [e, e, f], [e, f], [f], [...]|...], 11.916
+% [[q], [b, c], [c, c], [e, f, c], [f, c], [e, c], [c], [e|...], [...]|...], 13.499
+% false
+% astar([q],Path,Cost,[[q,a],[q,b,c],[a],[b],[c]]).
+% [[q], [a], []], 2.5
+% [[q], [b, c], [c], []], 3.666
+% false
