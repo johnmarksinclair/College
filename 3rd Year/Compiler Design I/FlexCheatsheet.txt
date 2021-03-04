@@ -1,0 +1,10 @@
+$ - end of line
+[^] - anything but specified token
+[a-z] - any char from a-z, case sensitive
+. - matches any char except line breaks
+{2,3} - quantifier, can be any number, match between 2 and 3 of the previous token
+^ - beginning, matches the beginning of a string
++ - quantifier, match 1 or more of the preceding token
+? - zero or one of the previous token
+() - capturing group, groups multiple tokens together for extracting a substring
+| - alternation, acts like logical or
