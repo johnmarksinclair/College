@@ -6,5 +6,5 @@
 
 #include "sales.h"
 
-void my_tour(const point cities[], int tour[], int ncities);
+int my_tour(const point cities[], int tour[], int ncities);
 #endif // MYTOUR_H
