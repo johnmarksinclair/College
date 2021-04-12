@@ -128,7 +128,7 @@ void call_student_tour(const point *cities, int *tour, int ncities)
 
 int main(int argc, char *argv[])
 {
-  int i, ncities;
+  int ncities;
   point *cities;
   int *tour;
   int seed;

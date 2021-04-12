@@ -1,32 +1,151 @@
+/*
+ * Concurrent Systems
+ * The Travelling Salesperson
+ * John Sinclair 16325734 & Sanil Gupta 18322581
+ * 
+ * OpenMP:
+ * #pragma omp 
+ * atomic - single thread exec of following statement
+ * critical - single thread exec of follwing block
+ * 
+ * use of MAXLOC and MINLOC
+ * 
+ * Approach:
+ * - initialised visited array with parr for loop
+ * - 
+ * 
+ * Results:
+ * n = 50k
+ * sequential - 22.2 mln ms - baseline
+ * parallel w/ pfor visited init - 20.5 mln ms - ~8% reduction
+ * parallel w/ struct - 9.8 mln ms - ~56% reduction
+ * n = 100k
+ * sequential - 78 mln ms - baseline
+ * parallel w/ struct - 42.5 mln ms - ~46% reduction
+ */
+
+#include <float.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <omp.h>
+#include <emmintrin.h>
+#include <xmmintrin.h>
+#include <alloca.h>
 #include "mytour.h"
+
+float square(float x)
+{
+  return x * x;
+}
+
+float distance(const point cities[], int i, int j)
+{
+  return sqrt(square(cities[i].x - cities[j].x) +
+              square(cities[i].y - cities[j].y));
+}
+
+void parallel(const point cities[], int tour[], int ncities)
+{
+  int i, j;
+  char *visited = alloca(ncities);
+  int ThisPt = 0;
+  int endtour = 0;
+
+#pragma omp parallel for
+  for (i = 0; i < ncities; i++)
+    visited[i] = 0;
+
+  ThisPt = ncities - 1;
+  visited[ncities - 1] = 1;
+  tour[endtour++] = ncities - 1;
+
+  // define array of tvals
+  typedef struct
+  {
+    float dist;
+    int loc;
+    char pad[128];
+  } tvals;
+  int num_threads = 4;
+  tvals *sharedinfo = alloca(num_threads * sizeof(tvals));
+
+  for (i = 1; i < ncities; i++)
+  {
+#pragma omp parallel shared(sharedinfo)
+    {
+      int id = omp_get_thread_num();
+      sharedinfo[id].dist = DBL_MAX;
+#pragma omp for
+      for (j = 0; j < ncities - 1; j++)
+      {
+        if (!visited[j])
+        {
+          if (distance(cities, ThisPt, j) < sharedinfo[id].dist)
+          {
+            sharedinfo[id].dist = distance(cities, ThisPt, j);
+            sharedinfo[id].loc = j;
+          }
+        }
+      }
+    }
+
+    int closest_city = -1;
+    float closest_dist = DBL_MAX;
+    for (int k = 0; k < num_threads; k++)
+    {
+      if (sharedinfo[k].dist < closest_dist)
+      {
+        closest_city = sharedinfo[k].loc;
+        closest_dist = sharedinfo[k].dist;
+      }
+    }
+    tour[endtour++] = closest_city;
+    visited[closest_city] = 1;
+    ThisPt = closest_city;
+  }
+}
+
+void sequential(const point cities[], int tour[], int ncities)
+{
+  int i, j;
+  char *visited = alloca(ncities);
+  int ThisPt, ClosePt = 0;
+  float CloseDist;
+  int endtour = 0;
+
+  for (i = 0; i < ncities; i++)
+    visited[i] = 0;
+
+  ThisPt = ncities - 1;
+  visited[ncities - 1] = 1;
+  tour[endtour++] = ncities - 1;
+
+  for (i = 1; i < ncities; i++)
+  {
+    CloseDist = DBL_MAX;
+    for (j = 0; j < ncities - 1; j++)
+    {
+      if (!visited[j])
+      {
+        if (distance(cities, ThisPt, j) < CloseDist)
+        {
+          CloseDist = distance(cities, ThisPt, j);
+          ClosePt = j;
+        }
+      }
+    }
+    tour[endtour++] = ClosePt;
+    visited[ClosePt] = 1;
+    ThisPt = ClosePt;
+  }
+}
 
 void my_tour(const point cities[], int tour[], int ncities)
 {
-  simple_find_tour(cities, tour, ncities);
-  // convert cities to 2d array
-  // return tsp(cities, tour, 0, ncities, 0, 0, 0);
+  // if (ncities > 10000)
+  parallel(cities, tour, ncities);
+  // else
+  // sequential(cities, tour, ncities);
 }
-
-// int tsp(int cities[][], int tour[], int currentPos, int ncities, int count, int cost, int ans)
-// {
-//   if (count == ncities && cities[currentPos][0] > 0)
-//   {
-//     if (ans > cost + cities[currentPos][0])
-//     {
-//       ans = cost + cities[currentPos][0];
-//     }
-//     return ans;
-//   }
-
-//   for (int i = 0; i < ncities; i++)
-//   {
-//     if (tour[i] == 0 && cities[currentPos][i] > 0)
-//     {
-//       tour[i] = 1;
-//       ans = tsp(cities, tour, i, ncities, count + 1, cost + cities[currentPos][i], ans);
-//       tour[i] = 0;
-//     }
-//   }
-
-//   return ans;
-// }
