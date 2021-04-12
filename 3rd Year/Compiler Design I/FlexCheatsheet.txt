@@ -1,3 +1,11 @@
+flex file.l
+
+gcc lex.yy.c -ll
+
+./a.out
+
+to read from a file - yyin=fopen("abc.txt", "r");
+
 $ - end of line \n equiv
 [^] - anything but specified token
 [a-z] - any char from a-z, case sensitive
