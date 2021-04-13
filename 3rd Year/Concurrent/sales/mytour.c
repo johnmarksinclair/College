@@ -158,8 +158,8 @@ void sequential(const point cities[], int tour[], int ncities)
 
 void my_tour(const point cities[], int tour[], int ncities)
 {
-  // if (ncities > 10000)
-  parallel(cities, tour, ncities);
-  // else
-  // sequential(cities, tour, ncities);
+  if (ncities > 10000)
+    parallel(cities, tour, ncities);
+  else
+    sequential(cities, tour, ncities);
 }
