@@ -3,10 +3,15 @@
  * The Travelling Salesperson
  * John Sinclair 16325734 & Sanil Gupta 18322581
  * 
- * OpenMP:
- * #pragma omp 
- * atomic - single thread exec of following statement
- * critical - single thread exec of follwing block
+ * compile: gcc-10 -Wall -fopenmp sales.c mytour.c -o sales
+ * run: ./sales <n>
+ * 
+ * OpenMP Utilities used:
+ * #pragma omp
+ *    parallel for
+ *    omp_get_max_threads()
+ *    parallel shared()
+ *    for
  * 
  * Approach:
  * - initialised visited array with parr for loop
@@ -15,7 +20,6 @@
  * - when parr for completed got the index of the closest city from the shared arr
  * 
  * Results:
- * 
  * n = 50k
  * sequential - 22.2 mln ms - baseline
  * w/ 4 threads
