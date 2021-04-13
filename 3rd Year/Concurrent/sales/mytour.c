@@ -8,20 +8,28 @@
  * atomic - single thread exec of following statement
  * critical - single thread exec of follwing block
  * 
- * use of MAXLOC and MINLOC
- * 
  * Approach:
  * - initialised visited array with parr for loop
- * - 
+ * - defined an array of structs with an index for each thread
+ * - ran the inner for loop in parallel where each thread had access to the shared arr
+ * - when parr for completed got the index of the closest city from the shared arr
  * 
  * Results:
+ * 
  * n = 50k
  * sequential - 22.2 mln ms - baseline
+ * w/ 4 threads
  * parallel w/ pfor visited init - 20.5 mln ms - ~8% reduction
  * parallel w/ struct - 9.8 mln ms - ~56% reduction
+ * w/ max threads
+ * parallel w/ struct - 9.7 mln ms - ~57% reduction
+ * 
  * n = 100k
  * sequential - 78 mln ms - baseline
+ * w/ 4 threads
  * parallel w/ struct - 42.5 mln ms - ~46% reduction
+ * w/ max threads
+ * parallel w/ struct - 36.2 mln ms - ~54% reduction
  */
 
 #include <float.h>
@@ -68,7 +76,7 @@ void parallel(const point cities[], int tour[], int ncities)
     int loc;
     char pad[128];
   } tvals;
-  int num_threads = 4;
+  int num_threads = omp_get_max_threads(); //4;
   tvals *sharedinfo = alloca(num_threads * sizeof(tvals));
 
   for (i = 1; i < ncities; i++)
