@@ -14,10 +14,12 @@
  *    for
  * 
  * Approach:
- * - initialised visited array with parr for loop
- * - defined an array of structs with an index for each thread
- * - ran the inner for loop in parallel where each thread had access to the shared arr
- * - when parr for completed got the index of the closest city from the shared arr
+ * - initialised visited array with parallel for loop
+ * - defined an array of structs (with a value for distance, index and some padding) 
+ *            with an array index for each thread
+ * - ran the inner for loop in parallel where each thread had access to the shared array
+ * - when parallel for completed, we got the index of the closest city from the 
+ *            significantly shorter (length = num of threads) shared arr
  * 
  * Results:
  * n = 50k
