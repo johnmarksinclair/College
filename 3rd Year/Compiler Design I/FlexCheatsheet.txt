@@ -1,6 +1,8 @@
-flex file.l
+bison -d file.y (generates file.tab.c and the '-d' gens file.tab.h)
 
-gcc lex.yy.c -ll
+flex file.l (include file.tab.h)
+
+gcc file.tab.c lex.yy.c -ll
 
 ./a.out
 

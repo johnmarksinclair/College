@@ -29,8 +29,5 @@ C       {yylval.num = 100; return NUM;}
 D       {yylval.num = 500; return NUM;}
 M       {yylval.num = 1000; return NUM;}
 \n      {return EOL;}
-{ERROR_EXP} {
-	printf("syntax error\n");
-	exit(0);
-}
+{ERROR_EXP} {printf("syntax error\n"); exit(0);}
 %%
