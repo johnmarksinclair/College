@@ -11,7 +11,7 @@ async function wait() {
 async function countdown() {
   for (let i = 25; i >= 0; i--) {
     console.log(i);
-    await wait();
+    if (i != 0) await wait();
   }
 }
 
