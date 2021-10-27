@@ -1,9 +1,11 @@
 import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
+app.use(cors());
 const port = 8080;
 
 function willRain(weather) {
@@ -75,5 +77,5 @@ app.get("/forecast", async function (req, res) {
 });
 
 app.listen(port, function () {
-  console.log(`listening on ${port}`);
+  console.log(`listening on port ${port}`);
 });
