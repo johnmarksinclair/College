@@ -8,30 +8,25 @@ const app = express();
 app.use(cors());
 const port = 8080;
 
-function willRain(weather) {
+function willRain(weatherdata) {
   let arr = [];
-  weather.forEach((inc) => {
-    arr.push(inc["weather"][0]["main"]);
+  weatherdata.forEach((period) => {
+    arr.push(period["weather"][0]["main"]);
   });
   return arr.includes("Rain");
 }
 
 function getTemps(weather) {
   // 0 K = -273.15 C
-  let high = -200;
-  let low = 200;
-  weather.forEach((inc) => {
-    let temp = inc["main"]["temp"] - 273.15;
-    if (temp > high) high = temp;
-    if (temp < low) low = temp;
+  let arr = []
+  let avg = 0;
+  weather.forEach((period) => {
+    let temp = period["temp"]["day"] - 273.15;
+    arr.push(temp)
+    avg = ((avg * (arr.length-1)) + temp) / arr.length
   });
 
   let ret = "hot";
-  let avg = (high + low) / 2;
-  //   let avg = (high + high + low) / 3;
-  //   console.log(high);
-  //   console.log(low);
-  //   console.log(avg);
   if (avg < 20) ret = "warm";
   if (avg < 10 && avg > -10) ret = "cold";
 
@@ -47,14 +42,17 @@ app.get("/forecast", async function (req, res) {
   }
 
   let city = req.query["city"];
-  let weatherurl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.appid}`;
-  let response = await fetch(weatherurl);
+  let cityurl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.appid}`;
+  let response = await fetch(cityurl);
   if (response.status == 200) {
     let data = await response.json();
-
-    let weather = data["list"];
     let lat = data["city"]["coord"]["lat"];
     let lon = data["city"]["coord"]["lon"];
+
+    let weatherurl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${process.env.appid}`
+    response = await fetch(weatherurl);
+    let weatherdata = await response.json();
+    weatherdata = weatherdata["daily"]
 
     let airurl = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${process.env.appid}`;
     response = await fetch(airurl);
@@ -63,10 +61,10 @@ app.get("/forecast", async function (req, res) {
 
     res.status(200);
     res.json({
-      rain: willRain(weather),
-      temp: getTemps(weather),
+      rain: willRain(weatherdata),
+      temp: getTemps(weatherdata),
       mask: pm2_5 > 10 ? true : false,
-      weather: weather,
+      weather: weatherdata,
     });
     return;
   }
