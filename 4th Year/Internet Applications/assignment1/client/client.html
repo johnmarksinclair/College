@@ -5,14 +5,16 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
 <body>
-    <div id="app">
+    <div id="app" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <h3>Where are you visiting? Type in a city below</h3>
-        <input v-model="city"/>
-        <button v-on:click="handleSearch()">Search</button>
+        <div>
+            <input v-model="city"/>
+            <button v-on:click="handleSearch()">Search</button>
+        </div>
         <div v-show="areResultsVisible()">
-            <p>{{ rain ? "It'll be raining in the next 5 days - be prepared, bring an umbrella!" : "No rain forecasted in the next 5 days - no need for an umbrella :)"}}</p>
+            <p>{{ rain ? "It'll be raining in the next 5 days - bring an umbrella!" : "No rain forecasted in the next 5 days - no need for an umbrella :)"}}</p>
             <p>Pack for {{ temp }} weather!</p>
-            <p>{{ air ? "Air pollution levels don't look great wear a mask!" : "Air pollution levels look good, no need for a mask :)"}}</p>
+            <p>{{ air ? "Wear a mask - the air pollution levels don't look great" : "No need for a mask - air pollution levels look good"}}</p>
             <h4>Weather Overview - Next 5 Days</h4>
             <table>
                 <tr>
@@ -22,10 +24,10 @@
                     <th>Rainfall Level</th>
                 </tr>
                 <tr v-for="period in weather">
-                    <td>{{ period["dt_txt"] }}</td>
-                    <td>{{ (period["main"]["temp"] - 273.15).toFixed(2) }} *C</td>
-                    <td>{{ (period["wind"]["speed"]).toFixed(2) }} m/sec</td>
-                    <!-- <td>{{ (period["rain"]["3h"]).toFixed(2) }} mm</td> -->
+                    <td>{{ formatDate(period["dt"]) }}</td>
+                    <td>{{ (period["temp"]["day"] - 273.15).toFixed(2) }} °C</td>
+                    <td>{{ (period["wind_speed"]).toFixed(2) }} m/sec</td>
+                    <td>{{ ((period["rain"]) ? (period["rain"]) : 0).toFixed(2) }} mm</td>
                 </tr>
             </table>
        </div>
@@ -42,6 +44,14 @@
                 weather: null,
             },
             methods: {
+                formatDate: function(dt) {
+                    let d = new Date(dt*1000)
+                    let year = d.getFullYear();
+                    let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                    let month = months[d.getMonth()];
+                    let date = d.getDate();
+                    return `${date}/${month}/${year}`
+                },
                 areResultsVisible: function() {
                     return this.resultsShow
                 },
@@ -54,14 +64,13 @@
                             let res = await fetch(base + this.city)
                             if (res.status == 200) {
                                 let json = await res.json()
-                                console.log(json)
                                 this.rain = json["rain"]
                                 this.temp = json["temp"]
                                 this.air = json["mask"]
-                                this.weather = json["weather"]
+                                this.weather = json["weather"].slice(0, 6)
                                 this.resultsShow = true
                             } else {
-                                alert("Uh oh - theres been an issue!")
+                                alert("Uh oh - can't find that city!")
                             }
                         } catch (e) {
                             console.log(e)

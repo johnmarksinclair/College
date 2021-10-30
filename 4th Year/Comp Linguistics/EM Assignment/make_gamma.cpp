@@ -66,7 +66,9 @@ int main(int argc, char **argv)
     // the d-th data item
     // feel free to add additional helper functions to this file also
     // note that can definitely complete this *without* modifying any other files
-    // TODO here
+    // TODO display, for each d, and for each possible value (A and B) of the coin choice variable Z, the 
+    // TODO conditional probility P(Z|X^d), where X^d is the sequence of H and T outcomes for the dth data item
+    
     // END INSERT
     // show gamma
     for (int dn = 0; dn < data.size(); dn++)
