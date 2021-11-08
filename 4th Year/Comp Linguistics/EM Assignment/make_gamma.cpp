@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <math.h>
 using namespace std;
 
 Variable chce; /*!< \brief encapsulates the 'disk' being used to choose a type of coin.
@@ -66,9 +67,20 @@ int main(int argc, char **argv)
     // the d-th data item
     // feel free to add additional helper functions to this file also
     // note that can definitely complete this *without* modifying any other files
-    // TODO display, for each d, and for each possible value (A and B) of the coin choice variable Z, the 
-    // TODO conditional probility P(Z|X^d), where X^d is the sequence of H and T outcomes for the dth data item
-    
+    for (int dn = 0; dn < data.size(); dn++) 
+    {
+        int heads = 0;
+        int tails = 0;
+        for (int i = 0; i < data[dn].outcomes.size(); i++) {
+            if (data[dn].outcomes[i] == 0) heads++;
+            else tails++;
+        }
+        double pa = chce_probs[0] * pow(ht_probs[0][0], heads) * pow(ht_probs[0][1], tails);
+        double pb = chce_probs[1] * pow(ht_probs[1][0], heads) * pow(ht_probs[1][1], tails);
+        double sum = pa + pb;
+        gamma[dn][0] = pa / sum;
+        gamma[dn][1] = pb / sum;
+    }
     // END INSERT
     // show gamma
     for (int dn = 0; dn < data.size(); dn++)
