@@ -47,6 +47,7 @@ async function fetchMovieData() {
   try {
     let data = await s3.getObject(bucketparams).promise();
     let moviedata = JSON.parse(data.Body);
+    // TODO remove slice
     moviedata = moviedata.slice(0, 20);
     return moviedata;
   } catch (err) {
