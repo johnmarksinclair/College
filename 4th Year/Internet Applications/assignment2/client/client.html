@@ -6,6 +6,9 @@
             input, button, h5 {
                 margin: 6px
             }
+            td {
+                padding: 5px
+            }
     </style>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     </head>
@@ -16,6 +19,7 @@
             <button v-on:click="destroy()">Destroy</button>
             <h3 v-show="showCreating">Creating db table...</h3>
             <h3 v-show="showDeleting">Deleting db table...</h3>
+            <h4>Input a year and a minimum rating to search</h4>
             <h5>Movie Name</h5>
             <input v-model="name"/>
             <h5>Movie Year</h5>
@@ -24,6 +28,7 @@
             <input v-model="rating"/>
             <br />
             <button v-on:click="query()">Query</button>
+            <h3 v-show="showSearching">Searching...</h3>
             <div v-show="showResults">
                 <h3>Results</h3>
                 <table>
@@ -45,55 +50,75 @@
             var app = new Vue({
                 el: '#app',
                 data: {
-                    name: "Rush",
-                    year: "2013",
-                    rating: "8.3",
+                    name: "",
+                    year: "",
+                    rating: "",
                     showCreating: false,
                     showDeleting: false,
+                    showSearching: false,
                     showResults: false,
                     showNoMatches: false,
                     matchingMovies: [],
+                    serverUrl: "http://34.241.85.34:8080"
+                    // serverUrl: "http://localhost:8080"
                 },
                 methods: {
                     create: async function() {
                         this.showCreating = true
-                        let url = "http://localhost:8080/create"
-                        let res = await fetch(url, { method:"POST" })
-                        if (res.status == 200) alert("Successfully created db table")
-                        else {
-                            let err = await res.json()
+                        let url = this.serverUrl + "/create"
+                        try {
+                            let res = await fetch(url, { method:"POST" })
+                            console.log(res)
+                            if (res.status == 200) alert("Successfully created db table")
+                            else {
+                                let err = await res.json()
+                                console.log(err)
+                                let message = err.error.message
+                                alert(`Failed to create db table, error: ${message}`)
+                            }
+                        } catch (err) {
                             console.log(err)
-                            let message = err.error.message
-                            alert(`Failed to create db table, error: ${message}`)
                         }
                         this.showCreating = false
                     },
                     query: async function() {
-                        if (this.name == "" || this.year == "" || this.rating == "") {
-                            alert("please provide valid inputs")
+                        this.showSearching = true;
+                        if (this.year == "" || this.rating == "") {
+                            alert("please provide a year and minimum rating")
                         } else {
-                            let url = `http://localhost:8080/query?name=${this.name}&year=${this.year}&rating=${this.rating}`
-                            let res = await fetch(url, { method:"GET" })
-                            let json = await res.json()
-                            this.matchingMovies = json.result
-                            if (this.matchingMovies.length == 0) {
-                                this.showResults = false
-                                this.showNoMatches = true
-                            } else {
-                                this.showNoMatches = false
-                                this.showResults = true
-                            }
+                            let url = this.serverUrl + `/query?name=${this.name}&year=${this.year}&rating=${this.rating}`
+                            try {
+                                let res = await fetch(url, { method:"GET" })
+                                console.log(res)
+                                let json = await res.json()
+                                this.matchingMovies = json.result
+                                if (this.matchingMovies.length == 0) {
+                                    this.showResults = false
+                                    this.showNoMatches = true
+                                } else {
+                                    this.showNoMatches = false
+                                    this.showResults = true
+                                }
+                            } catch (err) {
+                                console.log(err)
+                            }     
                         }
+                        this.showSearching = false;
                     },
                     destroy: async function() {
                         this.showDeleting = true
-                        let url = "http://localhost:8080/destroy"
-                        let res = await fetch(url, { method:"DELETE" })
-                        if (res.status == 200) alert("Successfully deleted db table")
-                        else {
-                            let err = await res.json()
-                            let message = err.error.message
-                            alert(`Failed to delete db table, error: ${message}`)
+                        let url = this.serverUrl + "/destroy"
+                        try {
+                            let res = await fetch(url, { method:"DELETE" })
+                            console.log(res)
+                            if (res.status == 200) alert("Successfully deleted db table")
+                            else {
+                                let err = await res.json()
+                                let message = err.error.message
+                                alert(`Failed to delete db table, error: ${message}`)
+                            }
+                        } catch (err) {
+                            console.log(err)
                         }
                         this.showDeleting = false
                     },
