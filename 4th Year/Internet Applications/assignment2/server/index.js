@@ -1,9 +1,8 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import AWS from "aws-sdk";
+var express = require("express");
+var cors = require("cors");
+var AWS = require("aws-sdk");
 
-dotenv.config();
+require("dotenv").config();
 const app = express();
 app.use(cors());
 const port = 8080;
@@ -30,8 +29,8 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 var tableCreateParams = {
   TableName: tableName,
   KeySchema: [
-    { AttributeName: "yr", KeyType: "HASH" }, //Partition key
-    { AttributeName: "rating", KeyType: "RANGE" }, //Sort key
+    { AttributeName: "yr", KeyType: "HASH" },
+    { AttributeName: "rating", KeyType: "RANGE" },
   ],
   AttributeDefinitions: [
     { AttributeName: "yr", AttributeType: "N" },
@@ -46,10 +45,7 @@ var tableCreateParams = {
 async function fetchMovieData() {
   try {
     let data = await s3.getObject(bucketparams).promise();
-    let moviedata = JSON.parse(data.Body);
-    // TODO remove slice
-    moviedata = moviedata.slice(0, 20);
-    return moviedata;
+    return JSON.parse(data.Body);
   } catch (err) {
     console.log("s3 error: " + err);
     return false;
@@ -84,8 +80,7 @@ async function populateTable(moviedata) {
         await docClient.put(doc).promise();
       } catch (err) {
         console.log("error adding doc to db:");
-        console.log(movie);
-        console.log(err);
+        console.log(doc);
       }
     });
     return true;
@@ -95,31 +90,35 @@ async function populateTable(moviedata) {
   }
 }
 
+var created = true;
 app.post("/create", async function (req, res) {
-  let moviedata = await fetchMovieData();
-  if (moviedata == false) {
-    res.status(500);
-    res.json({ success: false, error: "failed to fetch movie data from s3" });
-    return;
+  if (created == false) {
+    let moviedata = await fetchMovieData();
+    if (moviedata == false) {
+      res.status(500);
+      res.json({ success: false, error: "failed to fetch movie data from s3" });
+      return;
+    }
+    console.log("movie data fetched from s3");
+    let creation = await createTable();
+    if (creation == false) {
+      res.status(500);
+      res.json({ success: false, error: "failed to create ddb table" });
+      return;
+    }
+    console.log("table created");
+    let initialised = false;
+    while (!initialised) {
+      let description = await dynamodb
+        .describeTable({ TableName: tableName })
+        .promise();
+      if (description.Table.TableStatus == "ACTIVE") initialised = true;
+    }
+    console.log("table initialised");
+    let populated = await populateTable(moviedata);
+    console.log("table populated");
+    created = true;
   }
-
-  let creation = await createTable();
-  if (creation == false) {
-    res.status(500);
-    res.json({ success: false, error: "failed to create ddb table" });
-    return;
-  }
-
-  let initialised = false;
-  while (!initialised) {
-    let description = await dynamodb
-      .describeTable({ TableName: tableName })
-      .promise();
-    if (description.Table.TableStatus == "ACTIVE") initialised = true;
-  }
-
-  await populateTable(moviedata);
-
   res.status(200);
   res.json({ success: true });
 });
@@ -160,6 +159,8 @@ app.delete("/destroy", async function (req, res) {
       res.status(500);
       res.json({ destroyed: false, error: err });
     } else {
+      console.log("table deleted");
+      created = false;
       res.status(200);
       res.json({ destroyed: true });
     }
